@@ -1,0 +1,17 @@
+# Framework principal
+Django>=4.2
+
+# API REST (para criar endpoints)
+djangorestframework>=3.14
+
+# CORS (permitir que o React acesse o backend)
+django-cors-headers>=3.14
+
+# Leitura de variáveis de ambiente (.env)
+python-dotenv>=1.0.0
+
+# Geração e leitura de tokens JWT (para login/autenticação)
+PyJWT>=2.8
+
+# Requisições HTTP (para consumir a API do Valorant)
+requests>=2.31
