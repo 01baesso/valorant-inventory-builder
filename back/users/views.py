@@ -2,9 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 
-import json, os
+from django.shortcuts import render
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from django.http import JsonResponse
+
+import json
+import os
 
 USER_DB = os.path.join(settings.BASE_DIR, 'db', 'user.json')
 
@@ -37,8 +41,8 @@ def login_view(request):
     password = data.get('password')
 
     # Carrega usuários existentes
-    if os.path.exists(USER_FILE):
-        with open(USER_FILE, 'r') as f:
+    if os.path.exists(USER_DB):
+        with open(USER_DB, 'r') as f:
             users = json.load(f)
     else:
         users = []
