@@ -1,0 +1,90 @@
+/* ===== HEADER ===== */
+.site-header {
+  width: 100%;
+  height: 70px;
+  background: rgba(10,10,10,0.98);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #ff4655;
+}
+
+.site-header .left img {
+  height: 40px;
+  cursor: pointer;
+}
+
+.site-header .center h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  color: #ffffff;
+  align-self:center;
+  margin-left: 100px;
+}
+
+.site-header .right select {
+  background: #121212;
+  color: #fff;
+  border: 1px solid rgba(255,70,85,0.26);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.site-header .right select:hover {
+  background: #ff4655;
+  color: #000;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  width: 100%;
+  height: 60px;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  box-sizing: border-box;
+  border-top: 2px solid #ff4655;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.site-footer a {
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.2s ease-in-out;
+}
+
+/* Botão Download */
+.download-btn {
+  background: #ff4655;
+  color: white;
+}
+
+.download-btn:hover {
+  background: #ff1e30;
+}
+
+/* Botão GitHub */
+.github-btn {
+  background: #1f1f1f;
+  color: #ff4655;
+  border: 1px solid #ff4655;
+}
+
+.github-btn:hover {
+  background: #ff4655;
+  color: black;
+}

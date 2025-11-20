@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import userIcon from '../assets/user.webp';
 import padlockIcon from '../assets/padlock.webp';
 import '../styles/login.css';
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!username.trim() || !password.trim()) {
+    if (!username.trim() || !email.trim() || !password.trim()) {
       setError("Preencha todos os campos.");
       return;
     }
@@ -22,24 +24,18 @@ function Login() {
       return;
     }
 
-    // chama o backend
     try {
-      const res = await fetch('http://localhost:8000/api/login/', {
+      const res = await fetch('http://localhost:8000/api/register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, email, password })
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        // login ok -> redireciona para área protegida (exemplo '/dashboard')
-        navigate('/dashboard'); // crie essa rota depois
+        setSuccessMsg('Cadastro realizado com sucesso! Volte ao login.');
+        setTimeout(() => navigate('/'), 1500);
       } else {
-        // se backend informar que não existe, redireciona para registro
-        if (data.message === 'Usuário não encontrado' || res.status === 401) {
-          navigate('/register');
-        } else {
-          setError(data.message || 'Erro no login');
-        }
+        setError(data.message || 'Erro ao cadastrar');
       }
     } catch (err) {
       console.error(err);
@@ -50,26 +46,30 @@ function Login() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <h1>Acesse o Inventário</h1>
+        <h1>Registre-se</h1>
         {error && <p className="error-message">{error}</p>}
+        {successMsg && <p className="success-message">{successMsg}</p>}
 
         <div className="inputs">
           <img src={userIcon} alt="User Icon" className="icon"/>
           <input type="text" placeholder="Nome de Usuário" onChange={(e) => setUsername(e.target.value)}/>
         </div>
         <div className="inputs">
-          <img src={padlockIcon} alt="User Icon" className="icon"/>
+          <img src={userIcon} alt="Email Icon" className="icon"/>
+          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+        </div>
+        <div className="inputs">
+          <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
           <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)}/>
         </div>
 
-        <button>Entrar</button>
-
+        <button>Cadastrar</button>
         <div className="signup-link">
-          <p>Não tem uma conta? <Link to="/register">Registre</Link></p>
+          <p>Já tem conta? <button type="button" onClick={() => navigate('/')}>Voltar ao Login</button></p>
         </div>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;
