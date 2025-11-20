@@ -4,7 +4,7 @@ import userIcon from '../assets/user.webp';
 import padlockIcon from '../assets/padlock.webp';
 import '../styles/login.css';
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +13,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     if (!username.trim() || !password.trim()) {
       setError("Preencha todos os campos.");
       return;
@@ -22,21 +23,20 @@ function Login() {
       return;
     }
 
-    // chama o backend
     try {
       const res = await fetch('http://localhost:8000/api/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
+
       const data = await res.json();
+
       if (res.ok && data.success) {
-        // login ok -> redireciona para área protegida (exemplo '/dashboard')
-        navigate('/dashboard'); // crie essa rota depois
+        navigate('/dashboard');
       } else {
-        // se backend informar que não existe, redireciona para registro
-        if (data.message === 'Usuário não encontrado' || res.status === 401) {
-          navigate('/register');
+        if (data.message && (data.message.toLowerCase().includes('não encontrado') || data.message.toLowerCase().includes('credenciais'))) {
+          setError(data.message);
         } else {
           setError(data.message || 'Erro no login');
         }
@@ -45,24 +45,27 @@ function Login() {
       console.error(err);
       setError('Erro ao conectar com o servidor');
     }
-  };
+  }
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
         <h1>Acesse o Inventário</h1>
+
         {error && <p className="error-message">{error}</p>}
 
         <div className="inputs">
           <img src={userIcon} alt="User Icon" className="icon"/>
-          <input type="text" placeholder="Nome de Usuário" onChange={(e) => setUsername(e.target.value)}/>
+          <input type="text" placeholder="Nome de Usuário" value={username}
+                 onChange={(e) => setUsername(e.target.value)}/>
         </div>
         <div className="inputs">
-          <img src={padlockIcon} alt="User Icon" className="icon"/>
-          <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)}/>
+          <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
+          <input type="password" placeholder="Senha" value={password}
+                 onChange={(e) => setPassword(e.target.value)}/>
         </div>
 
-        <button>Entrar</button>
+        <button type="submit">Entrar</button>
 
         <div className="signup-link">
           <p>Não tem uma conta? <Link to="/register">Registre</Link></p>
@@ -71,5 +74,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;

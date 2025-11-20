@@ -51,7 +51,7 @@ def register_view(request):
         if u.get('email') == email:
             return JsonResponse({'error': 'Email já cadastrado'}, status=400)
 
-    # salvar (em texto simples — ok para protótipo; não usar em produção)
+    # salvar
     users.append({
         'username': username,
         'email': email,

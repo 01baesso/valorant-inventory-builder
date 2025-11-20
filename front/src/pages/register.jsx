@@ -4,7 +4,7 @@ import userIcon from '../assets/user.webp';
 import padlockIcon from '../assets/padlock.webp';
 import '../styles/login.css';
 
-function Register() {
+export default function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,6 +15,8 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccessMsg("");
+
     if (!username.trim() || !email.trim() || !password.trim()) {
       setError("Preencha todos os campos.");
       return;
@@ -30,12 +32,14 @@ function Register() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })
       });
+
       const data = await res.json();
-      if (res.ok && data.success) {
-        setSuccessMsg('Cadastro realizado com sucesso! Volte ao login.');
-        setTimeout(() => navigate('/'), 1500);
+
+      if (res.ok && (data.success || data.status || data.message)) {
+        setSuccessMsg('Cadastro realizado com sucesso! Voltando ao login...');
+        setTimeout(() => navigate('/'), 1300);
       } else {
-        setError(data.message || 'Erro ao cadastrar');
+        setError(data.error || data.message || 'Erro ao cadastrar');
       }
     } catch (err) {
       console.error(err);
@@ -47,29 +51,34 @@ function Register() {
     <div className="container">
       <form onSubmit={handleSubmit}>
         <h1>Registre-se</h1>
+
         {error && <p className="error-message">{error}</p>}
         {successMsg && <p className="success-message">{successMsg}</p>}
 
         <div className="inputs">
           <img src={userIcon} alt="User Icon" className="icon"/>
-          <input type="text" placeholder="Nome de Usuário" onChange={(e) => setUsername(e.target.value)}/>
-        </div>
-        <div className="inputs">
-          <img src={userIcon} alt="Email Icon" className="icon"/>
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
-        </div>
-        <div className="inputs">
-          <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
-          <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)}/>
+          <input type="text" placeholder="Nome de Usuário" value={username}
+                 onChange={(e) => setUsername(e.target.value)}/>
         </div>
 
-        <button>Cadastrar</button>
-        <div className="signup-link">
+        <div className="inputs">
+          <img src={userIcon} alt="Email Icon" className="icon"/>
+          <input type="email" placeholder="Email" value={email}
+                 onChange={(e) => setEmail(e.target.value)}/>
+        </div>
+
+        <div className="inputs">
+          <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
+          <input type="password" placeholder="Senha" value={password}
+                 onChange={(e) => setPassword(e.target.value)}/>
+        </div>
+
+        <button type="submit">Cadastrar</button>
+
+        <div className="signup-link" style={{marginTop:12}}>
           <p>Já tem conta? <button type="button" onClick={() => navigate('/')}>Voltar ao Login</button></p>
         </div>
       </form>
     </div>
   );
 }
-
-export default Register;

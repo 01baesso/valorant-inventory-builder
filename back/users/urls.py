@@ -1,7 +1,7 @@
 from django.urls import path
-from users import views
+from .views import login_view, register_view
 
 urlpatterns = [
-    path('login/', views.login_view, name='login'),       # POST para fazer login
-    path('register/', views.register_view, name='register'),  # POST para criar usuário
+    path('login/', login_view),
+    path('register/', register_view),
 ]
