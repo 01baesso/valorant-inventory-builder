@@ -80,6 +80,10 @@ button:hover {
     transform: scale(1.04);
 }
 
+#back-to-login{ 
+    margin-top: 20px;
+}
+
 .signup-link {
     margin-top: 20px;
     text-align: center;

@@ -28,7 +28,7 @@ export default function Register() {
       return;
     }
     if (password.trim() !== confirmPassword.trim()) {
-      setError("As senhas devem ser iguais!");
+      setError("As senhas devem ser iguais.");
       return;
     }
     
@@ -88,7 +88,7 @@ export default function Register() {
         <button type="submit">Cadastrar</button>
 
         <div className="signup-link" style={{marginTop:12}}>
-          <p>Já tem conta? <button type="button" onClick={() => navigate('/')}>Voltar ao Login</button></p>
+          <p>Já tem uma conta? <button id="back-to-login" type="button" onClick={() => navigate('/')}>Voltar ao Login</button></p>
         </div>
       </form>
     </div>

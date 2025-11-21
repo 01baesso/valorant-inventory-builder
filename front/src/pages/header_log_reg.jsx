@@ -8,7 +8,7 @@ export default function Header() {
     <header className="site-header">
       <div className="left">
         <a href="https://playvalorant.com" target="_blank" rel="noreferrer">
-          <img src={logo} alt="Valorant" style={{height:40}}/>
+          <img src={logo} alt="Valorant Logo"/>
         </a>
       </div>
       <div className="center">

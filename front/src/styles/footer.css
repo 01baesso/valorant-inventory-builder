@@ -36,15 +36,7 @@
 }
 
 /* Botão GitHub */
-.github-btn {
-  background: rgba(10,10,10,0.98);
-  color: #ff4655;
-  border: 1px solid #ff4655;
-  transition: 0.25s ease;
-}
-
-.github-btn:hover {
-  background: #ff4655;
-  color: black;
-  transition: 0.25s ease;
+.github-btn img {
+  height: 40px;
+  cursor: pointer;
 }
