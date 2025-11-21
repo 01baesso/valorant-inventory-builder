@@ -47,9 +47,9 @@ def register_view(request):
     # checar duplicatas
     for u in users:
         if u.get('username') == username:
-            return JsonResponse({'error': 'Nome de usuário já existe'}, status=400)
+            return JsonResponse({'error': 'Nome de usuário já existe!'}, status=400)
         if u.get('email') == email:
-            return JsonResponse({'error': 'Email já cadastrado'}, status=400)
+            return JsonResponse({'error': 'Email já cadastrado!'}, status=400)
 
     # salvar
     users.append({
@@ -61,7 +61,7 @@ def register_view(request):
     with open(USER_DB, 'w', encoding='utf-8') as f:
         json.dump(users, f, indent=2, ensure_ascii=False)
 
-    return JsonResponse({'success': True, 'message': 'Registrado com sucesso'})
+    return JsonResponse({'success': True, 'message': 'Registrado com sucesso!'})
 
 
 @csrf_exempt
@@ -89,4 +89,4 @@ def login_view(request):
         if u.get('username') == username and u.get('password') == password:
             return JsonResponse({'success': True})
 
-    return JsonResponse({'success': False, 'message': 'Credenciais inválidas'}, status=401)
+    return JsonResponse({'success': False, 'message': 'Credenciais inválidas!'}, status=401)

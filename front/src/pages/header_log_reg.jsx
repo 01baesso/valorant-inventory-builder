@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/valorant-logo.png'; 
-import '../styles/head_foot.css';
+import '../styles/header.css';
 
 export default function Header() {
   return (

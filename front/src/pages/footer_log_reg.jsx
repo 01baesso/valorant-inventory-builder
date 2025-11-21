@@ -1,11 +1,11 @@
 import React from 'react';
-import '../styles/head_foot.css';
+import '../styles/footer.css';
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div>
-        <a className="download-btn" href="https://playvalorant.com" target="_blank" rel="noreferrer">Download Game</a>
+        <a className="download-btn" href="https://playvalorant.com" target="_blank" rel="noreferrer">Instalar Jogo</a>
       </div>
       <div>
         <a className="github-btn" href="https://github.com/01baesso/valorant-inventory-builder" target="_blank" rel="noreferrer">GitHub</a>

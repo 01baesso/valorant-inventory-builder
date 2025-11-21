@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import userIcon from '../assets/user.webp';
 import padlockIcon from '../assets/padlock.webp';
 import mailIcon from '../assets/email.webp';
-import '../styles/login.css';
+import '../styles/form.css';
 
 export default function Register() {
   const navigate = useNavigate();
