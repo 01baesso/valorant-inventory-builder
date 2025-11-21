@@ -15,11 +15,11 @@ export default function Header() {
         <h1>Valorant Inventory Builder</h1>
       </div>
       <div className="right">
-        <select onChange={(e)=> window.open(e.target.value,'_blank')} aria-placeholder='Comprar VP'>
-          <option>Comprar VP...</option>
-          <option value="https://store.riotgames.com">Riot Store</option>
-          <option value="https://www.razer.com">Razer</option>
-          <option value="https://www.some-shop.com">Site X</option>
+        <select onChange={(e)=> window.open(e.target.value,'_blank')} placeholder='Comprar VP'>
+          <option selected disabled>Lojas Valorant Points</option>
+          <option value="https://bonoxs.com/br/Valorant?from=home_favorite">Bonoxs</option>
+          <option value="https://www.reidoscoins.com.br/Valorant">Rei dos Coins</option>
+          <option value="https://www.nuuvem.com/br-pt/item/valorant">Nuuvem</option>
         </select>
       </div>
     </header>

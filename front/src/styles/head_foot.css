@@ -36,11 +36,14 @@
   border-radius: 6px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
+  transition: 0.25s ease;
 }
 
 .site-header .right select:hover {
   background: #ff4655;
+  cursor: pointer;
   color: #000;
+  transition: 0.25s ease;
 }
 
 /* ===== FOOTER ===== */

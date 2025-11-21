@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userIcon from '../assets/user.webp';
 import padlockIcon from '../assets/padlock.webp';
+import mailIcon from '../assets/email.webp';
 import '../styles/login.css';
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -25,7 +27,11 @@ export default function Register() {
       setError("A senha deve ter pelo menos 4 dígitos.");
       return;
     }
-
+    if (password.trim() !== confirmPassword.trim()) {
+      setError("As senhas devem ser iguais!");
+      return;
+    }
+    
     try {
       const res = await fetch('http://localhost:8000/api/register/', {
         method: 'POST',
@@ -62,7 +68,7 @@ export default function Register() {
         </div>
 
         <div className="inputs">
-          <img src={userIcon} alt="Email Icon" className="icon"/>
+          <img src={mailIcon} alt="Email Icon" className="icon"/>
           <input type="email" placeholder="Email" value={email}
                  onChange={(e) => setEmail(e.target.value)}/>
         </div>
@@ -71,6 +77,12 @@ export default function Register() {
           <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
           <input type="password" placeholder="Senha" value={password}
                  onChange={(e) => setPassword(e.target.value)}/>
+        </div>
+        
+        <div className="inputs">
+          <img src={padlockIcon} alt="Padlock Icon" className="icon"/>
+          <input type="password" placeholder="Confirme sua Senha" value={confirmPassword}
+                 onChange={(e) => setConfirmPassword(e.target.value)}/>
         </div>
 
         <button type="submit">Cadastrar</button>
