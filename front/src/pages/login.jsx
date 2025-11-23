@@ -33,7 +33,12 @@ export default function Login() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        navigate('/dashboard');
+        // IMPORTANTE: Salvar username no localStorage para uso no InventoryBuilder
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', data.email); // Opcional
+        
+        // Redirecionar para o inventário
+        navigate('/inventory'); // Ajuste a rota conforme seu App.jsx
       } else {
         if (data.message && (data.message.toLowerCase().includes('não encontrado') || data.message.toLowerCase().includes('credenciais'))) {
           setError(data.message);

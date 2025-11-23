@@ -5,11 +5,12 @@ import Header from './pages/header_log_reg.jsx';
 import Footer from './pages/footer_log_reg.jsx';
 import Login from './pages/login.jsx';
 import Register from './pages/register.jsx';
+import InventoryBuilder from './pages/inventory_builder.jsx';
 import './App.css';
 
 export default function App() {
   return (
-    <div className="App">          {/* <-- adicionei esta div com className="App" */}
+    <div className="App">
       <BrowserRouter>
         <Header />
         <main className="site-main">
@@ -17,6 +18,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/inventory" element={<InventoryBuilder />} />
             </Routes>
           </div>
         </main>
