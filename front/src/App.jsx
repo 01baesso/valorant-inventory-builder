@@ -6,6 +6,9 @@ import Footer from './components/footer_log_reg.jsx';
 import Login from './pages/login.jsx';
 import Register from './pages/register.jsx';
 import InventoryBuilder from './pages/inventory_builder.jsx';
+
+import bg from '/images/background/background.webp';
+import invBg from'/images/background/inventory-background.webp';
 import './App.css';
 
 export default function App() {
@@ -18,7 +21,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/inventory" element={<InventoryBuilder />} />
+              <Route path="/inventory" element={<InventoryBuilder/>} />
             </Routes>
           </div>
         </main>

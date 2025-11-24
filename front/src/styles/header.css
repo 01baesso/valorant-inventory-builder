@@ -1,13 +1,13 @@
 .site-header {
   width: 100%;
   height: 70px;
-  background: rgba(10,10,10,0.98);
+  background: var(--header-footer-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 28px;
   box-sizing: border-box;
-  border-bottom: 2px solid #ff4655;
+  border-bottom: 2px solid var(--border-red);
   position: relative;
 }
 
@@ -25,24 +25,24 @@
   letter-spacing: 4px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--text-main);
   margin: 0;
 }
 
 .site-header .right select {
   background: #121212;
-  color: #fff;
-  border: 1px solid #ff4655;
+  color: var(--text-main);
+  border: 1px solid var(--border-red);
   padding: 8px 12px;
   border-radius: 6px;
-  /* font-family: 'Inter', sans-serif; */
   font-weight: 600;
   transition: 0.25s ease;
+  appearance: none;
 }
 
 .site-header .right select:hover {
-  background: #ff4655;
+  background: var(--main-red);
   cursor: pointer;
-  color: #000;
+  color: var(--text-main);
   transition: 0.25s ease;
 }

@@ -24,7 +24,7 @@ export default function MoneyCounter({userInventoryItems = [], removeFromInvento
 
       <div className="price-viewers">
         <div className="vp-price">
-          <p>Valor em VP</p>
+          <p>Valor em Valorant Points</p>
           <span>{totalVP}</span>
         </div>
         <div className="money-price">

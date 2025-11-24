@@ -1,6 +1,6 @@
 .container {
 	width: 420px;
-	background: rgba(0,0,0,0.89);
+	background: var(--form-bg);
 	backdrop-filter: blur(6px);
 	padding: 40px;
 	border-radius: 14px;
@@ -52,7 +52,7 @@ form h1 {
 	background: none;
 	border: none;
 	outline: none;
-	color: #ba3a46;
+	color: var(--text-main);
 	font-size: 15px;
 	transition: 0.25s ease;
 }

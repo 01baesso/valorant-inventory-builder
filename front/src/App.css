@@ -5,19 +5,13 @@
   --bg-panel: rgba(255, 255, 255, 0.03);
   --border-soft: rgba(255, 255, 255, 0.06);
   --border-light: rgba(255, 255, 255, 0.1);
+  --header-footer-bg: rgba(10,10,10,0.98);
+  --form-bg: rgba(0, 0, 0, 0.8);
   --text-main: #ece8e1;
   --text-muted: #8b978f;
-  --accent-red: #ff4655;
+  --border-red: #ff4655;
+  --main-red: #ba3a46;
   --gold: #ffd700;
-
-
-  --gap-main: 24px;
-  --side-width: 260px;
-  --card-height: 84px;
-  --radius: 6px;
-  --center-min: 1000px;
-
-  
   --header-height: 72px;
   --footer-height: 48px;
 }
@@ -29,19 +23,10 @@
   font-family: 'Inter', sans-serif;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background-image: url("/images/background/background.webp");
-  width: 100%;
-  height: 100%;
-}
-
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -50,6 +35,13 @@ body {
   padding-top: 90px;
   padding-bottom: 100px; 
   box-sizing: border-box;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/images/background/background.webp");
+}
+
+.inventory-page{
+  background-image: url("/images/background/inventory-background.webp");
 }
 
 .container-central {

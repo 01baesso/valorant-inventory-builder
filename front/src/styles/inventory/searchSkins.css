@@ -3,19 +3,21 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: var(--side-width);
+  min-width: 260px;
+  max-width: 100%;
 
   /* ocupa 100% da altura disponível do main */
   height: 100%;
   overflow: hidden;
-  padding: 18px; /* padding interno para conteúdo da coluna */
+  padding: 10px; /* padding interno para conteúdo da coluna */
+  padding-bottom: 25px;
   background: transparent;
 }
 
 /* filtro (mantive seu estilo) */
 .filter-skins {
   background: var(--bg-panel);
-  border-radius: var(--radius);
+  border-radius: 6px;
   padding: 16px;
   border: 1px solid var(--border-soft);
   display: flex;
@@ -28,7 +30,7 @@
   width: 100%;
 	background: none;
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius);
+  border-radius: 6px;
 	outline: none;
 	color: #ece8e1;
 	font-size: 15px;
@@ -38,10 +40,10 @@
 }
 
 .filter-skins .search-skin-button {
-  background: #ba3a46;
+  background: var(--main-red);
   border: 1px solid var(--border-soft);
   padding: 5px;
-  border-radius: var(--radius);
+  border-radius: 6px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -49,7 +51,7 @@
 /* lista de skins com SCROLL interno */
 .skins-api {
   background: var(--bg-panel);
-  border-radius: var(--radius);
+  border-radius: 6px;
   padding: 10px;
   flex: 1 1 auto;
   overflow-y: auto;
@@ -67,7 +69,7 @@
 .empty-state { padding: 28px 12px; color: var(--text-muted); text-align: center; font-size: 0.95rem; }
 
 .skin-button {
-  display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: var(--radius);
+  display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 6px;
   cursor: pointer;
   background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid rgba(255,255,255,0.03);

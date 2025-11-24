@@ -1,9 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import valorantLogo from '/images/logos/valorant-logo.png'; 
 import '../styles/header.css';
 
 export default function Header() {
+  const [selectedStore, setSelectedStore] = useState('Lojas Valorant Points');
+
+  const handleStoreChange = (e) => {
+    const value = e.target.value;
+
+    if (value !== "Lojas Valorant Points") {
+      window.open(value, '_blank');
+      setSelectedStore("Lojas Valorant Points");
+    }
+  }
+
   return (
     <header className="site-header">
       <div className="left">
@@ -15,7 +25,7 @@ export default function Header() {
         <h1>Valorant Inventory Builder</h1>
       </div>
       <div className="right">
-        <select onChange={(e)=> window.open(e.target.value,'_blank')} placeholder='Comprar VP' defaultValue="Lojas Valorant Points">
+        <select value={selectedStore} onChange={handleStoreChange}>
           <option disabled value="Lojas Valorant Points">Lojas Valorant Points</option>
           <option value="https://bonoxs.com/br/Valorant?from=home_favorite">Bonoxs</option>
           <option value="https://www.reidoscoins.com.br/Valorant">Rei dos Coins</option>

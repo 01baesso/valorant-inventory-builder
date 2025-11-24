@@ -119,7 +119,7 @@ def login_view(request):
                 'email': user.get('email')
             })
 
-    return JsonResponse({'success': False, 'message': 'Credenciais inválidas!'}, status=401)
+    return JsonResponse({'success': False, 'message': 'Nome de usuário ou senha inválidos'}, status=401)
 
 
 @csrf_exempt

@@ -6,17 +6,19 @@
   /* ocupa 100% do main */
   height: 100%;
   overflow: hidden;
-  min-width: var(--side-width);
+  min-width: 260px;
+  max-width: 100%;
 
   /* sem position sticky para garantir alinhamento com header/footer */
   position: relative;
-  padding: 18px; /* padding interno */
+  padding: 10px; /* padding interno */
+  padding-bottom: 25px;
   background: transparent;
 }
 
 .money-per-skin-api {
   background: var(--bg-panel);
-  border-radius: var(--radius);
+  border-radius: 6px;
   padding: 14px;
   border: 1px solid var(--border-soft);
   flex: 1 1 auto;
@@ -27,20 +29,31 @@
 .money-per-skin-api::-webkit-scrollbar { width: 8px; }
 .money-per-skin-api::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
 
-.inventory-title { color: var(--accent-red); text-transform: uppercase; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
+.inventory-title { color: var(--text-main); text-transform: uppercase; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
 
 .inventory-item-card {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 10px; border-radius: 6px;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 12px;
+  margin: 2% 0;
+  padding: 10px; 
+  border-radius: 6px;
   background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.12));
-  border-left: 3px solid var(--accent-red);
+  border-left: 3px solid var(--main-red);
 }
 .item-info { display: flex; flex-direction: column; gap: 4px; }
 .item-name { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
-.item-price { color: var(--gold); font-size: 0.9rem; }
+.item-price { color: var(--gold); font-size: 0.8rem; }
 
-.remove-btn { background: transparent; border: none; font-size: 18px; color: rgba(255,255,255,0.7); cursor: pointer; }
-.remove-btn:hover { color: var(--accent-red); }
+.remove-btn { 
+  width: 20%;
+  background: transparent; 
+  border: none; 
+  font-size: 18px; 
+  color: rgba(255,255,255,0.7); 
+  cursor: pointer; 
+}
 
 .price-viewers { display: flex; flex-direction: column; gap: 12px; }
 .vp-price, .money-price {
@@ -58,4 +71,9 @@
   margin-bottom: 6px;
   text-transform: uppercase;
 }
-.vp-price span, .money-price span { font-weight: 900; font-size: 20px; color: #fff; }
+
+.vp-price span, .money-price span { 
+  font-weight: 900; 
+  font-size: 20px; 
+  color: var(--text-main); 
+}

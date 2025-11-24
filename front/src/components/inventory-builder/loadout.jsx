@@ -14,10 +14,10 @@ export default function Loadout({weaponImagesMap, selectedWeaponName, handleWeap
 				className={selectedWeaponName === name ? 'active' : ''}
 				onClick={() => handleWeaponSelection(name)}
 			>
-				<p>{name}</p>
 				<div className="weapon-img-wrap">
 					<img src={image} alt={name} />
 				</div>
+				<p>{name}</p>
 			</button>
 		);
 	};

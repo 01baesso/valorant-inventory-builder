@@ -263,7 +263,7 @@ export default function InventoryBuilder() {
   if (loadingInventory) return <div className="loading-state">Carregando inventário...</div>;
 
   return (
-    <main className='inventory-builder'>
+    <main className='inventory-builder inventory-page'>
       {notificationMessage && <div className="notification-toast">{notificationMessage}</div>}
 
       <SearchSkins
