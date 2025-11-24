@@ -97,8 +97,8 @@ def login_view(request):
     except Exception:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
 
-    username = data.get('username', '').strip()
-    password = data.get('password') or data.get('senha', '')
+    username = data.get('username')
+    password = data.get('password')
 
     # Validações
     if not username or not password:
@@ -112,7 +112,7 @@ def login_view(request):
     for user in users:
         if user.get('username') == username and user.get('password') == password:
             # Criar sessão simples
-            request.session['username'] = username
+            # request.session['username'] = username
             return JsonResponse({
                 'success': True, 
                 'username': username,

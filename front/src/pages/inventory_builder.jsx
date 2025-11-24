@@ -57,6 +57,28 @@ const weaponCategories = {
   melee:    ['Melee']
 };
 
+const weaponsIdMap = {
+  Classic: '29A0CFAB-485B-F5D5-779A-B59F85E204A8',
+  Shorty: '42DA8CCC-40D5-AFFC-BEEC-15AA47B42EDA',
+  Frenzy: '44D4E95C-4157-0037-81B2-17841BF2E8E3', 
+  Ghost: '1BAA85B4-4C70-1284-64BB-6481DFC3BB4E', 
+  Sheriff: 'E336C6B8-418D-9340-D77F-7A9E4CFE0702', 
+  Stinger: 'F7E1B454-4AD4-1063-EC0A-159E56B58941', 
+  Spectre: '62080D1-4035-2937-7C09-27AA2A5C27A7',
+  Bucky: '910BE174-449B-C412-AB22-D0873436B21B', 
+  Judge: 'EC845BF4-4F79-DDDA-A3DA-0DB3774B2794', 
+  Bulldog: 'AE3DE142-4D85-2547-DD26-4E90BED35CF7', 
+  Guardian: '4ADE7FAA-4CF1-8376-95EF-39884480959B', 
+  Phantom: 'EE8E8D15-496B-07AC-E5F6-8FAE5D4C7B1A', 
+  Vandal: '9C82E19D-4575-0200-1A81-3EACF00CF872', 
+  Melee: '2F59173C-4BED-B6C3-2191-DEA9B58BE9C7', 
+  Marshal: 'C4883E50-4494-202C-3EC3-6B8A9284F00B', 
+  Outlaw: '5F0AAF7A-4289-3998-D5FF-EB9A5CF7EF5C', 
+  Operator: 'A03B24D3-4319-996D-0F8C-94BBFBA1DFC7', 
+  Ares: '55D8A0F4-4274-CA67-FE2C-06AB45EFDF58', 
+  Odin: '63E6C2B6-4A8E-869C-3D4C-E38355226584'
+};
+
 const extractPrice = (obj) => {
   if (!obj) return 0;
   if (typeof obj === 'number') return obj;
@@ -69,13 +91,15 @@ const extractPrice = (obj) => {
 };
 
 export default function InventoryBuilder() {
-  const [selectedWeapon, setSelectedWeapon] = useState(null);
+  const [selectedWeaponId, setSelectedWeaponId] = useState(null);
+  const [selectedWeaponName, setSelectedWeaponName] = useState('');
   const [availableSkins, setAvailableSkins] = useState([]);
   const [userInventory, setUserInventory] = useState([]);
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState('');
   const [weaponImages, setWeaponImages] = useState({});
+  const [searchSkin, setSearchSkin] = useState('');
 
   useEffect(() => {
     const saved = localStorage.getItem('username');
@@ -118,7 +142,7 @@ export default function InventoryBuilder() {
    * - Para melee faz busca por palavras-chave (knife, dagger, blade, axe, mace, hammer)
    * - Retorna apenas o nível base (displayIcon / image) quando possível
    */
-  const fetchSkinsForWeapon = async (weaponName) => {
+  const fetchSkinsForWeapon = async (weaponId) => {
     setAvailableSkins([]);
     const triedEndpoints = [
       `${API_VALORANT_BASE}/json/weaponSkins`,
@@ -160,58 +184,13 @@ export default function InventoryBuilder() {
     else if (data?.items && Array.isArray(data.items)) arr = data.items;
     else if (typeof data === 'object') arr = Object.values(data);
 
-    const lowerWeapon = weaponName.toString().toLowerCase();
-
-    // Se for MELEE, faz busca por keywords
-    const meleeKeywords = ['knife', 'dagger', 'blade', 'axe', 'mace', 'hammer', 'knuckles', 'butterfly', 'karambit', 'cleaver'];
-
-    let resultItems = [];
-    if (lowerWeapon === 'melee') {
-      resultItems = arr.filter(item => {
-        try {
-          const textCandidates = [
-            item.name, item.displayName, item.weaponName, item.weapon,
-            ...(item.levels ? item.levels.map(l => l.name) : []),
-            ...(item.chromas ? item.chromas.map(c => c.name) : [])
-          ].filter(Boolean).map(s => s.toString().toLowerCase()).join(' ');
-          return meleeKeywords.some(kw => textCandidates.includes(kw));
-        } catch (e) {
-          return false;
-        }
-      });
-      // fallback mais frouxo
-      if (resultItems.length === 0) {
-        resultItems = arr.filter(item => {
-          const nm = (item.name || item.displayName || '').toString().toLowerCase();
-          return meleeKeywords.some(kw => nm.includes(kw));
-        });
-      }
-    } else {
-      // Busca normal por weaponName em vários campos (nome, weaponName, levels, chromas)
-      const matches = arr.filter(item => {
-        try {
-          const candidates = [
-            item.name, item.displayName, item.weaponName, item.weapon,
-            ...(item.levels ? item.levels.map(l => l.name) : []),
-            ...(item.chromas ? item.chromas.map(c => c.name) : [])
-          ].filter(Boolean).map(s => s.toString().toLowerCase());
-          return candidates.some(c => c.includes(lowerWeapon));
-        } catch (e) {
-          return false;
-        }
-      });
-
-      resultItems = matches.length > 0 ? matches : arr.filter(item => {
-        const nm = (item.name || item.displayName || '').toString().toLowerCase();
-        return nm.includes(lowerWeapon);
-      });
-    }
+    const filtered = arr.filter(item => item && item.weaponId === weaponId);
 
     // Mapeia cada item para *apenas* o nível base (fallback para chroma/level se não houver)
-    const skins = resultItems.map(item => {
+    const skins = filtered.map(item => {
       // tenta primeiro o ícone base
-      let icon = item.displayIcon || item.image || null;
-      const basePrice = extractPrice(item.price) || 0;
+      let icon = item.displayIcon || item.image;
+      
       // fallback: first level displayIcon
       if (!icon && Array.isArray(item.levels) && item.levels.length > 0) {
         const lv = item.levels.find(l => l.displayIcon) || item.levels[0];
@@ -245,8 +224,16 @@ export default function InventoryBuilder() {
 
   // Ao clicar numa arma: seleciona e busca skins
   const handleWeaponClick = (weaponName) => {
-    setSelectedWeapon({ name: weaponName, displayIcon: weaponImages[weaponName] || DEFAULT_WEAPON_IMG[weaponName] });
-    fetchSkinsForWeapon(weaponName);
+    const id = weaponsIdMap[weaponName];
+
+    if (!id) {
+      setNotification('Id inválido.');
+      return;
+    }
+
+    setSelectedWeaponId(id);
+    setSelectedWeaponName(weaponName);
+    fetchSkinsForWeapon(id);
   };
 
   // adiciona skin ao inventário (POST) e atualiza estado local
@@ -272,7 +259,7 @@ export default function InventoryBuilder() {
         const data = await res.json();
         setUserInventory(data.inventory || []);
         // seta imagem da arma selecionada para a nova skin
-        setWeaponImages(prev => ({ ...prev, [selectedWeapon?.name || '']: skin.displayIcon }));
+        setWeaponImages(prev => ({ ...prev, [selectedWeaponName || '']: skin.displayIcon }));
         setNotification(`${skin.displayName} adicionada`);
       } else {
         const err = await res.json().catch(() => ({}));
@@ -293,7 +280,7 @@ export default function InventoryBuilder() {
    * - Assim garantimos substituição no JSON (backend) e na UI.
    */
   const handleSkinClick = async (skin) => {
-    if (!selectedWeapon) {
+    if (!selectedWeaponId) {
       setNotification('Selecione a arma primeiro.');
       setTimeout(() => setNotification(''), 2000);
       return;
@@ -307,7 +294,7 @@ export default function InventoryBuilder() {
     }
 
     // verifica se já existe uma skin no inventário que pertence a essa arma (por imagem mapeada)
-    const currentWeaponName = selectedWeapon.name;
+    const currentWeaponName = selectedWeaponName;
     const currentMappedImage = weaponImages[currentWeaponName];
 
     if (currentMappedImage) {
@@ -372,7 +359,7 @@ export default function InventoryBuilder() {
       <button
         key={name}
         type="button"
-        className={selectedWeapon?.name === name ? 'active' : ''}
+        className={selectedWeaponName === name ? 'active' : ''}
         onClick={() => handleWeaponClick(name)}
       >
         <p>{name}</p>
@@ -383,6 +370,11 @@ export default function InventoryBuilder() {
     );
   };
 
+  const searchSkins = async (e) => {
+    e.preventDefault();
+    console.log("aboborabrunoguazelibatista")
+  }
+
   return (
     <main>
       {/* toast fixo (não altera layout) */}
@@ -391,17 +383,14 @@ export default function InventoryBuilder() {
       {/* Coluna Esquerda - Skins Disponíveis */}
       <div className="guns-skins">
         <div className="filter-skins">
-          <select defaultValue="Coleção">
-            <option value="Coleção">Coleção</option>
-          </select>
-          <select defaultValue="Maior → Menor">
-            <option value="Maior → Menor">Maior → Menor</option>
-            <option value="Menor → Maior">Menor → Maior</option>
-          </select>
+          <form onSubmit={searchSkins} className="search-skins">
+            <input className='input-search-skins' type="text" placeholder='Nome da Skin' required onChange={(e) => {setSearchSkin(e.target.value)}}/>
+            <button type="submit" className='search-button'>Buscar</button>
+          </form>
         </div>
 
         <div className="skins-api">
-          {!selectedWeapon ? (
+          {!selectedWeaponName ? (
             <div className="empty-state">Selecione uma arma ao lado →</div>
           ) : (
             availableSkins.length === 0 ? (
