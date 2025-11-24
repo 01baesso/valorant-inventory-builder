@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/footer.css';
-import gitHubIcon from '../assets/github.webp'
+import gitHubIcon from '../../public/logos/github.webp';
 
 export default function Footer() {
   return (

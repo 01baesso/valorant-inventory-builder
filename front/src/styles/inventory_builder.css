@@ -31,8 +31,7 @@ html, body {
   height: 100%;
 }
 body {
-  font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  background-image: url("./assets/inventory-background.webp");
+  background-image: url("../../public/background/inventory-background.webp");
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

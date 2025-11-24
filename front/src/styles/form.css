@@ -1,111 +1,111 @@
 .container {
-    width: 420px;
-    background: rgba(0,0,0,0.89);
-    backdrop-filter: blur(6px);
-    padding: 40px;
-    border-radius: 14px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.15);
+	width: 420px;
+	background: rgba(0,0,0,0.89);
+	backdrop-filter: blur(6px);
+	padding: 40px;
+	border-radius: 14px;
+	box-shadow: 0 0 20px rgba(0,0,0,0.25);
+	border: 1px solid rgba(255,255,255,0.15);
 }
 
 form h1 {
-    color: #ffffff;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 800;
+	color: #ffffff;
+	text-align: center;
+	margin-bottom: 20px;
+	font-weight: 800;
 }
 
 .error-message {
-    color: #ba3a46;
-    margin-bottom: 20px;
-    text-align: center;
-    text-decoration: underline;
+	color: #ba3a46;
+	margin-bottom: 20px;
+	text-align: center;
+	text-decoration: underline;
 }
 
 .success-message{
-    color: #ba3a46;
-    margin-bottom: 20px;
-    text-align: center;
-    text-decoration: underline;
+	color: #ba3a46;
+	margin-bottom: 20px;
+	text-align: center;
+	text-decoration: underline;
 }
 
 .inputs {
-    display: flex;
-    align-items: center;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 12px;
-    gap: 12px;
-    border-radius: 10px;
-    margin-bottom: 18px;
-    transition: 0.25s ease;
+	display: flex;
+	align-items: center;
+	background: rgba(255,255,255,0.12);
+	border: 1px solid rgba(255,255,255,0.25);
+	padding: 12px;
+	gap: 12px;
+	border-radius: 10px;
+	margin-bottom: 18px;
+	transition: 0.25s ease;
 }
 
 .inputs .icon {
-    width: 22px;
-    height: 22px;
-    opacity: 0.9;
+	width: 22px;
+	height: 22px;
+	opacity: 0.9;
 }
 
 .inputs input {
-    width: 100%;
-    background: none;
-    border: none;
-    outline: none;
-    color: #ba3a46;
-    font-size: 15px;
-    transition: 0.25s ease;
+	width: 100%;
+	background: none;
+	border: none;
+	outline: none;
+	color: #ba3a46;
+	font-size: 15px;
+	transition: 0.25s ease;
 }
 
 .inputs input::placeholder {
-    color: #ba3a46;
+	color: #ba3a46;
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    background: #ba3a46;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.25s ease;
-    transform: scale(1);
+	width: 100%;
+	padding: 12px;
+	background: #ba3a46;
+	border: none;
+	color: white;
+	font-size: 16px;
+	border-radius: 10px;
+	cursor: pointer;
+	font-weight: 600;
+	transition: 0.25s ease;
+	transform: scale(1);
 }
 
 button:hover {
-    background: #ba3a47d0;
-    transform: scale(1.04);
+	background: #ba3a47d0;
+	transform: scale(1.04);
 }
 
 #back-to-login{ 
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 .signup-link {
-    margin-top: 20px;
-    text-align: center;
+	margin-top: 20px;
+	text-align: center;
 }
 
 .signup-link p {
-    color: #ba3a46;
+	color: #ba3a46;
 }
 
 .signup-link a {
-    color: #ba3a46;
-    text-decoration: none;
-    font-weight: 600;
+	color: #ba3a46;
+	text-decoration: none;
+	font-weight: 600;
 }
 
 .signup-link a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .inputs:focus-within {
-    transform: scale(1.04);
-    border-color: #ba3a46;
-    background: rgba(186, 58, 70, 0.18);
-    box-shadow: 0 0 8px rgba(186, 58, 70, 0.4);
+	transform: scale(1.04);
+	border-color: #ba3a46;
+	background: rgba(186, 58, 70, 0.18);
+	box-shadow: 0 0 8px rgba(186, 58, 70, 0.4);
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import userIcon from '../assets/user.webp';
-import padlockIcon from '../assets/padlock.webp';
+import userIcon from '../../public/icons/user.webp';
+import padlockIcon from '../../public/icons/padlock.webp';
 import '../styles/form.css';
 
 export default function Login() {
