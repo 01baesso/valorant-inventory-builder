@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from './pages/header_log_reg.jsx';
-import Footer from './pages/footer_log_reg.jsx';
+import Header from './components/header_log_reg.jsx';
+import Footer from './components/footer_log_reg.jsx';
 import Login from './pages/login.jsx';
 import Register from './pages/register.jsx';
 import InventoryBuilder from './pages/inventory_builder.jsx';

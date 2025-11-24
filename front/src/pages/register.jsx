@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userIcon from '../../public/images/icons/user.webp';
-import padlockIcon from '../../public/images/icons/padlock.webp';
-import mailIcon from '../../public/images/icons/email.webp';
+import { Link } from 'react-router-dom';
+import userIcon from '/images/icons/user.webp';
+import padlockIcon from '/images/icons/padlock.webp';
+import mailIcon from '/images/icons/email.webp';
 import '../styles/form.css';
 
 export default function Register() {
@@ -88,7 +89,7 @@ export default function Register() {
         <button type="submit">Cadastrar</button>
 
         <div className="signup-link" style={{marginTop:12}}>
-          <p>Já tem uma conta? <button id="back-to-login" type="button" onClick={() => navigate('/')}>Voltar ao Login</button></p>
+          <p>Já tem uma conta? <Link to="/">Faça o Login</Link></p>
         </div>
       </form>
     </div>

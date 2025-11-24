@@ -1,88 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/inventory_builder.css';
+import '../styles/inventory/inventoryMain.css';
+import '../styles/inventory/searchSkins.css';
+import '../styles/inventory/loadout.css';
+import '../styles/inventory/moneyCounter.css';
 
-import ClassicIMG from '../../public/images/default_weapons/classic.png';
-import FrenzyIMG from '../../public/images/default_weapons/frenzy.png';
-import ShortyIMG from '../../public/images/default_weapons/shorty.png';
-import GhostIMG from '../../public/images/default_weapons/ghost.png';
-import SheriffIMG from '../../public/images/default_weapons/sheriff.png';
-import StingerIMG from '../../public/images/default_weapons/stinger.png';
-import SpectreIMG from '../../public/images/default_weapons/spectre.png';
-import BuckyIMG from '../../public/images/default_weapons/bucky.png';
-import JudgeIMG from '../../public/images/default_weapons/judge.png';
-import BulldogIMG from '../../public/images/default_weapons/bulldog.png';
-import GuardianIMG from '../../public/images/default_weapons/Guardian.png';
-import PhantomIMG from '../../public/images/default_weapons/phantom.png';
-import VandalIMG from '../../public/images/default_weapons/vandal.png';
-import MeleeIMG from '../../public/images/default_weapons/melee.png';
-import MarshalIMG from '../../public/images/default_weapons/marshal.png';
-import OutlawIMG from '../../public/images/default_weapons/outlaw.png';
-import OperatorIMG from '../../public/images/default_weapons/operator.png';
-import AresIMG from '../../public/images/default_weapons/ares.png';
-import OdinIMG from '../../public/images/default_weapons/odin.png';
+import SearchSkins from '../components/inventory-builder/searchSkins.jsx';
+import Loadout from '../components/inventory-builder/loadout.jsx';
+import MoneyCounter from '../components/inventory-builder/moneyCounter.jsx';
 
-const DEFAULT_WEAPON_IMAGES = {
-  Classic: ClassicIMG,
-  Shorty: ShortyIMG,
-  Frenzy: FrenzyIMG,
-  Ghost: GhostIMG,
-  Sheriff: SheriffIMG,
-  Stinger: StingerIMG,
-  Spectre: SpectreIMG,
-  Bucky: BuckyIMG,
-  Judge: JudgeIMG,
-  Bulldog: BulldogIMG,
-  Guardian: GuardianIMG,
-  Phantom: PhantomIMG,
-  Vandal: VandalIMG,
-  Melee: MeleeIMG,
-  Marshal: MarshalIMG,
-  Outlaw: OutlawIMG,
-  Operator: OperatorIMG,
-  Ares: AresIMG,
-  Odin: OdinIMG
-};
+import {DEFAULT_WEAPON_IMAGES, weaponIdMap, weaponCategories} from '../components/inventory-builder/inventoryUtils.jsx';
 
 const API_VALORANT_BASE = 'https://vinfo-api.com';
 const API_BACK = 'http://localhost:8000/api';
-
-const weaponIdMap = {
-  Classic: '29A0CFAB-485B-F5D5-779A-B59F85E204A8',
-  Shorty: '42DA8CCC-40D5-AFFC-BEEC-15AA47B42EDA',
-  Frenzy: '44D4E95C-4157-0037-81B2-17841BF2E8E3',
-  Ghost:  '1BAA85B4-4C70-1284-64BB-6481DFC3BB4E',
-  Sheriff:'E336C6B8-418D-9340-D77F-7A9E4CFE0702',
-
-  Stinger:'F7E1B454-4AD4-1063-EC0A-159E56B58941',
-  Spectre:'62080D1-4035-2937-7C09-27AA2A5C27A7',
-
-  Bucky:  '910BE174-449B-C412-AB22-D0873436B21B',
-  Judge:  'EC845BF4-4F79-DDDA-A3DA-0DB3774B2794',
-
-  Bulldog:'AE3DE142-4D85-2547-DD26-4E90BED35CF7',
-  Guardian:'4ADE7FAA-4CF1-8376-95EF-39884480959B',
-  Phantom:'EE8E8D15-496B-07AC-E5F6-8FAE5D4C7B1A',
-  Vandal:'9C82E19D-4575-0200-1A81-3EACF00CF872',
-
-  Melee:'2F59173C-4BED-B6C3-2191-DEA9B58BE9C7',
-
-  Marshal:'C4883E50-4494-202C-3EC3-6B8A9284F00B',
-  Outlaw:'5F0AAF7A-4289-3998-D5FF-EB9A5CF7EF5C',
-  Operator:'A03B24D3-4319-996D-0F8C-94BBFBA1DFC7',
-
-  Ares:'55D8A0F4-4274-CA67-FE2C-06AB45EFDF58',
-  Odin:'63E6C2B6-4A8E-869C-3D4C-E38355226584'
-};
-
-const weaponCategories = {
-  pistols:  ['Classic', 'Shorty', 'Frenzy', 'Ghost', 'Sheriff'],
-  smgs:     ['Stinger', 'Spectre'],
-  shotguns: ['Bucky', 'Judge'],
-  rifles:   ['Bulldog', 'Guardian', 'Phantom', 'Vandal'],
-  snipers:  ['Marshal', 'Outlaw', 'Operator'],
-  heavies:  ['Ares', 'Odin'],
-  melee:    ['Melee']
-};
 
 const extractPrice = (obj) => {
   if (!obj) return 0;
@@ -105,6 +34,7 @@ export default function InventoryBuilder() {
   const [loadingInventory, setLoadingInventory] = useState(true);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [weaponImagesMap, setWeaponImagesMap] = useState({});
+  const [searchSkin, setSearchSkin] = useState('');
 
   useEffect(() => {
     const saved = localStorage.getItem('username');
@@ -325,119 +255,38 @@ export default function InventoryBuilder() {
   const totalVP = userInventoryItems.reduce((acc, it) => acc + (it.price || 0), 0);
   const totalBRL = (totalVP * 0.03042608695);
 
-  const renderWeaponButton = (name) => {
-    const image = weaponImagesMap[name] || DEFAULT_WEAPON_IMAGES[name] || '';
-    return (
-      <button
-        key={name}
-        type="button"
-        className={selectedWeaponName === name ? 'active' : ''}
-        onClick={() => handleWeaponSelection(name)}
-      >
-        <p>{name}</p>
-        <div className="weapon-img-wrap">
-          <img src={image} alt={name} />
-        </div>
-      </button>
-    );
-  };
+  const handleSearchSkin = (e) => {
+    e.preventDefault();
+    console.log("ABOBORAS");
+  }
 
   if (loadingInventory) return <div className="loading-state">Carregando inventário...</div>;
 
   return (
-    <main>
+    <main className='inventory-builder'>
       {notificationMessage && <div className="notification-toast">{notificationMessage}</div>}
 
-      <div className="guns-skins">
-        <div className="filter-skins">
-          <select defaultValue="Coleção">
-            <option value="Coleção">Coleção</option>
-          </select>
-          <select defaultValue="Maior → Menor">
-            <option value="Maior → Menor">Maior → Menor</option>
-            <option value="Menor → Maior">Menor → Maior</option>
-          </select>
-        </div>
+      <SearchSkins
+        selectedWeaponName={selectedWeaponName}
+        availableSkinsList={availableSkinsList}
+        handleSkinSelection={handleSkinSelection}
+        searchSkin={searchSkin}
+        setSearchSkin={setSearchSkin}
+        handleSearchSubmit={handleSearchSkin}
+      />
 
-        <div className="skins-api">
-          {!selectedWeaponName ? (
-            <div className="empty-state">Selecione uma arma ao lado →</div>
-          ) : (
-            availableSkinsList.length === 0 ? (
-              <div className="empty-state">Nenhuma skin encontrada</div>
-            ) : (
-              availableSkinsList.map(skin => (
-                <div
-                  key={skin.uuid}
-                  className="skin-button"
-                  onClick={() => handleSkinSelection(skin)}
-                >
-                  <img src={skin.displayIcon} alt={skin.displayName} />
-                  <span>{skin.displayName}</span>
-                </div>
-              ))
-            )
-          )}
-        </div>
-      </div>
+      <Loadout
+        weaponImagesMap={weaponImagesMap}
+        selectedWeaponName={selectedWeaponName}
+        handleWeaponSelection={handleWeaponSelection}
+      />
 
-      <div className="inventory-loadout">
-        <div className="loadout-group">
-          <h3>SIDEARMS</h3>
-          {weaponCategories.pistols.map(renderWeaponButton)}
-        </div>
-
-        <div className="loadout-group">
-          <h3>SMGS</h3>
-          {weaponCategories.smgs.map(renderWeaponButton)}
-          <h3>SHOTGUNS</h3>
-          {weaponCategories.shotguns.map(renderWeaponButton)}
-        </div>
-
-        <div className="loadout-group">
-          <h3>RIFLES</h3>
-          {weaponCategories.rifles.map(renderWeaponButton)}
-          <h3>MELEE</h3>
-          {weaponCategories.melee.map(renderWeaponButton)}
-        </div>
-
-        <div className="loadout-group">
-          <h3>SNIPER RIFLES</h3>
-          {weaponCategories.snipers.map(renderWeaponButton)}
-          <h3>MACHINE GUNS</h3>
-          {weaponCategories.heavies.map(renderWeaponButton)}
-        </div>
-      </div>
-
-      <div className="money-counter">
-        <div className="money-per-skin-api">
-          <h4 className="inventory-title">Meu Inventário</h4>
-          {userInventoryItems.length === 0 ? (
-            <div className="empty-state">Nenhuma skin adicionada</div>
-          ) : (
-            userInventoryItems.map(item => (
-              <div key={item.skin_id} className="inventory-item-card">
-                <div className="item-info">
-                  <span className="item-name">{item.skin_name}</span>
-                  <span className="item-price">{item.price} VP</span>
-                </div>
-                <button className="remove-btn" onClick={() => removeFromInventory(item.skin_id)}>×</button>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="price-viewers">
-          <div className="vp-price">
-            <p>Valor em VP</p>
-            <span>{totalVP}</span>
-          </div>
-          <div className="money-price">
-            <p>Valor em R$</p>
-            <span>R$ {totalBRL.toFixed(2)}</span>
-          </div>
-        </div>
-      </div>
+      <MoneyCounter
+        userInventoryItems={userInventoryItems}
+        removeFromInventory={removeFromInventory}
+        totalVP={totalVP}
+        totalBRL={totalBRL}
+      />
     </main>
   );
 }
