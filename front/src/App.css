@@ -10,7 +10,7 @@ html, body, #root {
 
 body, input, button, select, textarea {
   font-family: 'Inter', sans-serif;
-  background-image: url("../public/background/background.webp");
+  background-image: url("../public/images/background/background.webp");
   color: #e9e6e6;
 }
 

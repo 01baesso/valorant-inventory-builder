@@ -31,7 +31,7 @@ html, body {
   height: 100%;
 }
 body {
-  background-image: url("../../public/background/inventory-background.webp");
+  background-image: url("../../public/images/background/inventory-background.webp");
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userIcon from '../../public/icons/user.webp';
-import padlockIcon from '../../public/icons/padlock.webp';
-import mailIcon from '../../public/icons/email.webp';
+import userIcon from '../../public/images/icons/user.webp';
+import padlockIcon from '../../public/images/icons/padlock.webp';
+import mailIcon from '../../public/images/icons/email.webp';
 import '../styles/form.css';
 
 export default function Register() {

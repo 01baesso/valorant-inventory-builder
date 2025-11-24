@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/inventory_builder.css';
 
-import ClassicIMG from '../../public/default_weapons/classic.png';
-import ShortyIMG from '../../public/default_weapons/shorty.png';
-import FrenzyIMG from '../../public/default_weapons/frenzy.png';
-import GhostIMG from '../../public/default_weapons/ghost.png';
-import SheriffIMG from '../../public/default_weapons/sheriff.png';
-import StingerIMG from '../../public/default_weapons/stinger.png';
-import SpectreIMG from '../../public/default_weapons/spectre.png';
-import BuckyIMG from '../../public/default_weapons/bucky.png';
-import JudgeIMG from '../../public/default_weapons/judge.png';
-import BulldogIMG from '../../public/default_weapons/bulldog.png';
-import GuardianIMG from '../../public/default_weapons/Guardian.png';
-import PhantomIMG from '../../public/default_weapons/phantom.png';
-import VandalIMG from '../../public/default_weapons/vandal.png';
-import MeleeIMG from '../../public/default_weapons/melee.png';
-import MarshalIMG from '../../public/default_weapons/marshal.png';
-import OutlawIMG from '../../public/default_weapons/outlaw.png';
-import OperatorIMG from '../../public/default_weapons/operator.png';
-import AresIMG from '../../public/default_weapons/ares.png';
-import OdinIMG from '../../public/default_weapons/odin.png';
+import ClassicIMG from '../../public/images/default_weapons/classic.png';
+import FrenzyIMG from '../../public/images/default_weapons/frenzy.png';
+import ShortyIMG from '../../public/images/default_weapons/shorty.png';
+import GhostIMG from '../../public/images/default_weapons/ghost.png';
+import SheriffIMG from '../../public/images/default_weapons/sheriff.png';
+import StingerIMG from '../../public/images/default_weapons/stinger.png';
+import SpectreIMG from '../../public/images/default_weapons/spectre.png';
+import BuckyIMG from '../../public/images/default_weapons/bucky.png';
+import JudgeIMG from '../../public/images/default_weapons/judge.png';
+import BulldogIMG from '../../public/images/default_weapons/bulldog.png';
+import GuardianIMG from '../../public/images/default_weapons/Guardian.png';
+import PhantomIMG from '../../public/images/default_weapons/phantom.png';
+import VandalIMG from '../../public/images/default_weapons/vandal.png';
+import MeleeIMG from '../../public/images/default_weapons/melee.png';
+import MarshalIMG from '../../public/images/default_weapons/marshal.png';
+import OutlawIMG from '../../public/images/default_weapons/outlaw.png';
+import OperatorIMG from '../../public/images/default_weapons/operator.png';
+import AresIMG from '../../public/images/default_weapons/ares.png';
+import OdinIMG from '../../public/images/default_weapons/odin.png';
 
 const DEFAULT_WEAPON_IMAGES = {
   Classic: ClassicIMG,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../public/logos/valorant-logo.png'; 
+import valorantLogo from '../../public/images/logos/valorant-logo.png'; 
 import '../styles/header.css';
 
 export default function Header() {
@@ -8,7 +8,7 @@ export default function Header() {
     <header className="site-header">
       <div className="left">
         <a href="https://playvalorant.com" target="_blank" rel="noreferrer">
-          <img src={logo} alt="Valorant Logo"/>
+          <img src={valorantLogo} alt="Valorant Logo"/>
         </a>
       </div>
       <div className="center">
