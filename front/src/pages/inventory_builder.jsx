@@ -279,6 +279,14 @@ export default function InventoryBuilder() {
     }
   };
 
+  const handleClearSearch = () => {
+    setSearchSkin('');
+
+    if (selectedWeaponId) {
+      fetchSkinsForWeapon(selectedWeaponId);
+    }
+  };
+
   if (loadingInventory) return <div className="loading-state">Carregando inventário...</div>;
 
   return (
@@ -292,6 +300,7 @@ export default function InventoryBuilder() {
         searchSkin={searchSkin}
         setSearchSkin={setSearchSkin}
         handleSearchSkin={handleSearchSkin}
+        handleClearSearch={handleClearSearch}
       />
 
       <Loadout

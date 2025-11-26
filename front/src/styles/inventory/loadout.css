@@ -80,12 +80,11 @@
 }
 
 .loadout-group button.active, .loadout-group button:focus { 
-  border-color: var(--accent-red); 
   background: rgba(255,70,85,0.06); 
   box-shadow: 0 4px 18px rgba(255,70,85,0.12); 
   outline: none; 
-	transform: scale(1.04);
-  border-color: rgba(255,70,85,0.12);
+  border-color:rgba(255, 255, 255, 0.6);
+  transform: scale(1.03);
 }
 
 .loadout-group button.active::before {

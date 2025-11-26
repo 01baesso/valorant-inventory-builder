@@ -1,7 +1,7 @@
 import '../../styles/inventory/inventoryMain.css';
 import '../../styles/inventory/searchSkins.css';
 
-export default function SearchSkins({selectedWeaponName, availableSkinsList, handleSkinSelection, searchSkin, setSearchSkin, handleSearchSkin}) {
+export default function SearchSkins({selectedWeaponName, availableSkinsList, handleSkinSelection, searchSkin, setSearchSkin, handleSearchSkin, handleClearSearch}) {
 
 	return (
 			<div className="guns-skins">
@@ -10,7 +10,7 @@ export default function SearchSkins({selectedWeaponName, availableSkinsList, han
 					<input className='input-search-skins' type="text" placeholder="Pesquisar nome da skin..." value={searchSkin} onChange={(e) => setSearchSkin(e.target.value)}/>
 					<div className="search-skin-buttons">
 						<button className='search-skin-button' type='submit'>Buscar</button>
-						<button className="clear-skin-search-button" type='submit'>Limpar</button>
+						<button className="clear-skin-search-button" type='submit' onClick={handleClearSearch}>Limpar</button>
 					</div>
 				</form>
 			</div>
