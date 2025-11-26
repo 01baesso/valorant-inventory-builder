@@ -7,8 +7,11 @@ export default function SearchSkins({selectedWeaponName, availableSkinsList, han
 			<div className="guns-skins">
 			<div className="filter-skins">
 				<form onSubmit={handleSearchSkin} className="search-skins-form">
-					<input className='input-search-skins' type="text" placeholder="Nome da Skin" value={searchSkin} required onChange={(e) => setSearchSkin(e.target.value)}/>
-					<button className='search-skin-button'>Buscar</button>
+					<input className='input-search-skins' type="text" placeholder="Pesquisar nome da skin..." value={searchSkin} onChange={(e) => setSearchSkin(e.target.value)}/>
+					<div className="search-skin-buttons">
+						<button className='search-skin-button' type='submit'>Buscar</button>
+						<button className="clear-skin-search-button" type='submit'>Limpar</button>
+					</div>
 				</form>
 			</div>
 

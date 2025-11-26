@@ -39,13 +39,49 @@
   padding: 2px;
 }
 
-.filter-skins .search-skin-button {
+.filter-skins .search-skin-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3%;
+}
+
+.search-skin-button {
   background: var(--main-red);
   border: 1px solid var(--border-soft);
   padding: 5px;
   border-radius: 6px;
+  width: 50%;
+  height: 3.5vh;
   font-weight: 700;
   cursor: pointer;
+  transition: 0.25s ease;
+	transform: scale(1);
+}
+
+.search-skin-button:hover {
+	background: #ba3a47d0;
+	transform: scale(1.04);
+}
+
+.clear-skin-search-button {
+  background: var(--main-red);
+  border: 1px solid var(--border-soft);
+  padding: 5px;
+  border-radius: 6px;
+  width: 50%;
+  height: 3.5vh;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+	transform: scale(1);
+}
+
+.clear-skin-search-button:hover {
+  color: var(--text-main);
+	background: #ba3a47d0;
+	transform: scale(1.04);
 }
 
 /* lista de skins com SCROLL interno */

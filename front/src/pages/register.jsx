@@ -86,7 +86,7 @@ export default function Register() {
                  onChange={(e) => setConfirmPassword(e.target.value)}/>
         </div>
 
-        <button type="submit">Cadastrar</button>
+        <button className='form-button' type="submit">Cadastrar</button>
 
         <div className="signup-link" style={{marginTop:12}}>
           <p>Já tem uma conta? <Link to="/">Faça o Login</Link></p>

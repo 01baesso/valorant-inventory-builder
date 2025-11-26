@@ -257,8 +257,27 @@ export default function InventoryBuilder() {
 
   const handleSearchSkin = (e) => {
     e.preventDefault();
-    console.log("ABOBORAS");
-  }
+
+    if (!selectedWeaponId) {
+      setNotificationMessage('Selecione uma arma primeiro para pesquisar skins.');
+      setTimeout(() => setNotificationMessage(''), 3000);
+      return;
+    }
+
+    if (!searchSkin.trim()) {
+      fetchSkinsForWeapon(selectedWeaponId);
+      return;
+    }
+
+    const filteredSkins = availableSkinsList.filter(skin => skin.displayName.toLowerCase().includes(searchSkin.toLowerCase()));
+
+    setAvailableSkinsList(filteredSkins);
+
+    if (filteredSkins.length === 0) {
+      setNotificationMessage('Nenhuma skin encontrada.');
+      setTimeout(() => setNotificationMessage(''), 3000);
+    }
+  };
 
   if (loadingInventory) return <div className="loading-state">Carregando inventário...</div>;
 
@@ -272,7 +291,7 @@ export default function InventoryBuilder() {
         handleSkinSelection={handleSkinSelection}
         searchSkin={searchSkin}
         setSearchSkin={setSearchSkin}
-        handleSearchSubmit={handleSearchSkin}
+        handleSearchSkin={handleSearchSkin}
       />
 
       <Loadout

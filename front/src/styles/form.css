@@ -61,7 +61,7 @@ form h1 {
 	color: #ba3a46;
 }
 
-button {
+.form-button {
 	width: 100%;
 	padding: 12px;
 	background: #ba3a46;
@@ -75,7 +75,7 @@ button {
 	transform: scale(1);
 }
 
-button:hover {
+.form-button:hover {
 	background: #ba3a47d0;
 	transform: scale(1.04);
 }
