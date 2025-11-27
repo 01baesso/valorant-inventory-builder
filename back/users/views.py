@@ -1,13 +1,19 @@
-import json
-import os
-from django.conf import settings
+import os,json, hashlib, datetime
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
+from .jwt_auth import (
+    create_access_token, 
+    create_refresh_token, 
+    add_token_to_blacklist, 
+    decode_token, 
+    token_required, 
+    is_token_blakclisted
+)
 
 # Caminho para o arquivo JSON único
 USER_DB = os.path.join(settings.BASE_DIR, 'db', 'user.json')
-
 
 def ensure_user_db():
     """Cria user.json com lista vazia se não existir."""
@@ -32,12 +38,15 @@ def save_users(users):
         json.dump(users, f, indent=2, ensure_ascii=False)
 
 
-def find_user(users, username):
+def find_user_by_id(users, user_id):
     """Encontra um usuário pelo username."""
-    for i, user in enumerate(users):
-        if user.get('username') == username:
-            return i, user
+    for i, u in enumerate(users):
+        if u.get('id') == user_id:
+            return i, u
     return None, None
+
+def hash_password(raw_password: str) -> str:
+    return hashlib.sha256(raw_password.encode()).hexdigest()
 
 
 @csrf_exempt
@@ -50,7 +59,7 @@ def register_view(request):
 
     username = data.get('username', '').strip()
     email = data.get('email', '').strip()
-    password = data.get('password') or data.get('senha', '')
+    password = data.get('password').strip()
 
     # Validações
     if not username or not email or not password:
@@ -75,8 +84,13 @@ def register_view(request):
         if u.get('email') == email:
             return JsonResponse({'error': 'Email já cadastrado!'}, status=400)
 
+    #Gera id
+    max_id=max([u.get("id",0) for u in users], default=0)
+    new_id=max_id+1
+
     # Criar novo usuário com inventário vazio
     new_user = {
+        'id': new_id, 
         'username': username,
         'email': email,
         'password': password,
@@ -93,46 +107,109 @@ def register_view(request):
 @require_http_methods(["POST"])
 def login_view(request):
     try:
-        data = json.loads(request.body)
+        data=json.loads(request.body)
     except Exception:
-        return JsonResponse({'error': 'JSON inválido'}, status=400)
-
-    username = data.get('username')
-    password = data.get('password')
-
-    # Validações
-    if not username or not password:
-        return JsonResponse({'success': False, 'message': 'username e password são obrigatórios'}, status=400)
+        return JsonResponse({"error": "JSON Inválido"}, status=400)
     
-    if len(password) < 4:
-        return JsonResponse({'success': False, 'message': 'A senha deve ter pelo menos 4 dígitos'}, status=400)
+    username=data.get("username")
+    password=data.get("password")
+    user_id=data.get("id")
+    if not username or not password:
+        return JsonResponse({"error","username e password são obrigatórios"}, status=400)
 
-    users = load_users()
+    users=load_users()
+    _, user=find_user_by_id(users, user_id)
+    if not user:
+        return JsonResponse({"error": "Credenciais Inválidas"}, status=401)
+    
+    hashed=hash_password(password)
+    if user.get("password") != hashed:
+        return JsonResponse({"error":"Credenciais Inválidas"}, status=401)
+    
+    payload={
+        "user_id": user["id"],
+        "username": user["username"],
+        "email": user.get("email")
+    }
 
-    for user in users:
-        if user.get('username') == username and user.get('password') == password:
-            # Criar sessão simples
-            # request.session['username'] = username
-            return JsonResponse({
-                'success': True, 
-                'username': username,
-                'email': user.get('email')
-            })
+    access_token, access_jti = create_access_token(payload, expires_minutes=60)
+    refresh_token, refresh_jti = create_refresh_token(payload, expires_days=2)
 
-    return JsonResponse({'success': False, 'message': 'Nome de usuário ou senha inválidos'}, status=401)
+    return JsonResponse({
+        "access": access_token,
+        "refresh": refresh_token,
+        "expires_in": 3600
+    })
 
+@csrf_exempt
+@require_http_methods(["POST"])
+def refresh_view(request):
+    try:
+        data=json.loads(request.body)
+    except Exception:
+        return JsonResponse({"error":"JSON Inválido"}, status=400)
+    
+    refresh = data.get("refresh")
+    if not refresh:
+        return JsonResponse({"error":"Refresh token não fornecido"}, status=400)
+    
+    try:
+        payload=decode_token(refresh)
+    except ValueError as e:
+        return JsonResponse({"error":"Refresh token inválido ou expirado"}, status=401)
+    
+    if payload.get("type") != "refresh":
+        return JsonResponse({"error":"Token não é refresh"}, status=400)
+    
+    jti=payload.get("jti")
+    if jti and is_token_blakclisted(jti):
+        return JsonResponse({"error":"Refresh token revogado"}, status=401)
+    
+    access_payload={
+        "user_id": payload.get("user._id"),
+        "username": payload.get("username"),
+        "email": payload.get("email")
+    }
+
+    access_token, access_jti = create_access_token(access_payload, expires_minutes=60)
+    return JsonResponse({"access":access_token, "expires_in":3600})
+    
+@csrf_exempt
+@require_http_methods(["POST"])
+def logout_view(request):
+    try:
+        data=json.loads(request.body)
+    except Exception:
+        return JsonResponse({"error":"JSON Inválido"}, status=400)
+    
+    refresh = data.get("refresh")
+
+    if not refresh:
+        return JsonResponse({"error": "Refresh token não fornecido"}, status=400)
+    
+    try:
+        payload=decode_token(refresh)
+    except ValueError:
+        return JsonResponse({"error":"Refresh token inválido"}, status=400)
+    
+    jti=payload.get("jti")
+    if jti:
+        add_token_to_blacklist(jti)
+        return JsonResponse({"message":"Logout realizado"})
+    return JsonResponse({"error":"Não foi possível realizar logout"}, status=400)
 
 @csrf_exempt
 @require_http_methods(["GET"])
+@token_required
 def get_inventory(request):
     """Retorna o inventário do usuário logado."""
-    username = request.GET.get('username') or request.session.get('username')
+    user_id = request.user.get('id')
     
-    if not username:
+    if not user_id:
         return JsonResponse({'error': 'Usuário não autenticado'}, status=401)
 
     users = load_users()
-    _, user = find_user(users, username)
+    _, user = find_user_by_id(users, user_id)
     
     if not user:
         return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
@@ -146,11 +223,12 @@ def get_inventory(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+@token_required
 def add_to_inventory(request):
     """Adiciona um item ao inventário do usuário."""
-    username = request.GET.get('username') or request.session.get('username')
+    user_id = request.user.get('id')
     
-    if not username:
+    if not user_id:
         return JsonResponse({'error': 'Usuário não autenticado'}, status=401)
 
     try:
@@ -167,7 +245,7 @@ def add_to_inventory(request):
         return JsonResponse({'error': 'skin_id e skin_name são obrigatórios'}, status=400)
 
     users = load_users()
-    user_index, user = find_user(users, username)
+    user_index, user = find_user_by_id(users, user_id)
     
     if not user:
         return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
@@ -201,15 +279,16 @@ def add_to_inventory(request):
 
 @csrf_exempt
 @require_http_methods(["DELETE"])
+@token_required
 def remove_from_inventory(request, skin_id):
     """Remove um item do inventário do usuário."""
-    username = request.GET.get('username') or request.session.get('username')
+    user_id = request.user.get('id')
     
-    if not username:
+    if not user_id:
         return JsonResponse({'error': 'Usuário não autenticado'}, status=401)
 
     users = load_users()
-    user_index, user = find_user(users, username)
+    user_index, user = find_user_by_id(users, user_id)
     
     if not user:
         return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
