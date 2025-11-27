@@ -23,34 +23,30 @@ export default function Login() {
       return;
     }
 
-    try {
+    try{
       const res = await fetch('http://localhost:8000/api/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ username, password },),
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (res.ok && data.success) {
-        // IMPORTANTE: Salvar username no localStorage para uso no InventoryBuilder
-        localStorage.setItem('username', data.username);
-        localStorage.setItem('email', data.email); // Opcional
-        
-        // Redirecionar para o inventário
-        navigate('/inventory'); // Ajuste a rota conforme seu App.jsx
-      } else {
-        if (data.message && (data.message.toLowerCase().includes('não encontrado') || data.message.toLowerCase().includes('credenciais'))) {
-          setError(data.message);
-        } else {
-          setError(data.message || 'Erro no login');
+        if (res.ok) {
+          if (data.access){
+            localStorage.setItem('access', data.access);
+          }
+          localStorage.setItem('username', username);
+          navigate('/inventory');
+        } else{
+          setError(data.error || data.message || "Erro");
         }
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Erro ao conectar com o servidor');
+    } catch (err){
+      console.error("Login fetch error", err);
+      setError("Erro de conexão");
     }
-  }
+  };
 
   return (
     <div className="container">

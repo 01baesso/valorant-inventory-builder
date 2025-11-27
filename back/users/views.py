@@ -9,7 +9,7 @@ from .jwt_auth import (
     add_token_to_blacklist, 
     decode_token, 
     token_required, 
-    is_token_blakclisted
+    is_token_blakclisted,
 )
 
 # Caminho para o arquivo JSON único
@@ -42,6 +42,13 @@ def find_user_by_id(users, user_id):
     """Encontra um usuário pelo username."""
     for i, u in enumerate(users):
         if u.get('id') == user_id:
+            return i, u
+    return None, None
+
+def find_user_by_username(users, username):
+    """Encontra um usuário pelo username."""
+    for i, u in enumerate(users):
+        if u.get("username") == username:
             return i, u
     return None, None
 
@@ -93,7 +100,7 @@ def register_view(request):
         'id': new_id, 
         'username': username,
         'email': email,
-        'password': password,
+        'password': hash_password(password),
         'inventory': []  # Inventário já inicializado vazio
     }
     
@@ -113,12 +120,12 @@ def login_view(request):
     
     username=data.get("username")
     password=data.get("password")
-    user_id=data.get("id")
+
     if not username or not password:
         return JsonResponse({"error","username e password são obrigatórios"}, status=400)
 
     users=load_users()
-    _, user=find_user_by_id(users, user_id)
+    _, user=find_user_by_username(users, username)
     if not user:
         return JsonResponse({"error": "Credenciais Inválidas"}, status=401)
     
@@ -135,40 +142,47 @@ def login_view(request):
     access_token, access_jti = create_access_token(payload, expires_minutes=60)
     refresh_token, refresh_jti = create_refresh_token(payload, expires_days=2)
 
-    return JsonResponse({
+    response = JsonResponse({
         "access": access_token,
-        "refresh": refresh_token,
-        "expires_in": 3600
+        "expires_in": 3600,
+        "messsage": "Autenticado"
     })
+
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=False,
+        samesite="Lax",
+        max_age=7*24*3600,
+        path="/",
+    )
+
+    return response
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def refresh_view(request):
-    try:
-        data=json.loads(request.body)
-    except Exception:
-        return JsonResponse({"error":"JSON Inválido"}, status=400)
-    
-    refresh = data.get("refresh")
+    refresh=request.COOKIES.get("refresh_token")
     if not refresh:
-        return JsonResponse({"error":"Refresh token não fornecido"}, status=400)
+        return JsonResponse({"error": "Refresh token não fornecido"}, status=400)
     
     try:
         payload=decode_token(refresh)
-    except ValueError as e:
-        return JsonResponse({"error":"Refresh token inválido ou expirado"}, status=401)
+    except ValueError:
+        return JsonResponse({"error":"Refresh token Inválido"}, status=401)
     
     if payload.get("type") != "refresh":
         return JsonResponse({"error":"Token não é refresh"}, status=400)
     
     jti=payload.get("jti")
     if jti and is_token_blakclisted(jti):
-        return JsonResponse({"error":"Refresh token revogado"}, status=401)
+        return JsonResponse({"error":"Token revogado"}, status=401)
     
     access_payload={
-        "user_id": payload.get("user._id"),
-        "username": payload.get("username"),
-        "email": payload.get("email")
+        "user_id" : payload.get("user_id"),
+        "username" : payload.get("username"),
+        "email" : payload.get("email"),
     }
 
     access_token, access_jti = create_access_token(access_payload, expires_minutes=60)
@@ -177,26 +191,34 @@ def refresh_view(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def logout_view(request):
-    try:
-        data=json.loads(request.body)
-    except Exception:
-        return JsonResponse({"error":"JSON Inválido"}, status=400)
-    
-    refresh = data.get("refresh")
+    refresh =request.COOKIES.get("refresh_token")
 
     if not refresh:
-        return JsonResponse({"error": "Refresh token não fornecido"}, status=400)
+        try:
+            data = json.loads(request.body)
+            refresh = data.get("refresh")
+        except Exception:
+            refresh=None
+
+    if not refresh:
+        response = JsonResponse({"message":"Logout Realizado"})
+        response.delete_cookie("refresh_token",path="/")
+        return response
     
     try:
-        payload=decode_token(refresh)
+        payload = decode_token(refresh)
     except ValueError:
-        return JsonResponse({"error":"Refresh token inválido"}, status=400)
+        response = JsonResponse({"message":"Logout inválido"})
+        response.delete_cookie("refresh_token", path="/")
+        return response
     
-    jti=payload.get("jti")
+    jti = payload.get("jti")
     if jti:
         add_token_to_blacklist(jti)
-        return JsonResponse({"message":"Logout realizado"})
-    return JsonResponse({"error":"Não foi possível realizar logout"}, status=400)
+
+    response = JsonResponse({"message":"Logout Realizado"})
+    response.delete_cookie("refresh_token", path="/")
+    return response
 
 @csrf_exempt
 @require_http_methods(["GET"])
