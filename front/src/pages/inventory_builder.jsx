@@ -13,6 +13,55 @@ import {DEFAULT_WEAPON_IMAGES, weaponIdMap, weaponCategories} from '../component
 const API_VALORANT_BASE = 'https://vinfo-api.com';
 const API_BACK = 'http://localhost:8000/api';
 
+const getAccess = () => localStorage.getItem('access');
+
+async function tryRefresh() {
+  try{
+    const res = await fetch (`${API_BACK}/refresh/`,{
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      credentials: 'include',
+    });
+
+    if (!res.ok) return false;
+
+    const data = await res.json();
+    if(data.access){
+      localStorage.setItem('access', data.access);
+      return true;
+    }
+    return false;
+  } catch (err){
+    console.error("Refresh fail", err);
+    return false;
+  }
+}
+
+async function authFetch(url, options = {}) {
+  const access = getAccess();
+  const headers = options.headers || {};
+  if (access) 
+    headers['Authorization'] = `Bearer `+access;
+
+  headers['Content-Type'] = headers['Content-Type'] || 'application.json';
+  const opts = {...options, headers, credentials: options.credentials || 'include'};
+  let res = await fetch(url, opts);
+
+  if (res.status === 401){
+    const refreshed = await tryRefresh();
+    if (!refreshed) return res;
+    
+    const newAccess = getAccess();
+    if (newAccess)
+      headers['Authorization'] = `Bearer ` + newAccess;
+
+    const opts2 = {...opts, headers};
+    res = await fetch(url, opts2);
+  }
+
+  return res;
+}
+
 const extractPrice = (obj) => {
   if (!obj) return 0;
   if (typeof obj === 'number') return obj;
@@ -47,7 +96,10 @@ export default function InventoryBuilder() {
     if (!username) return;
     const fetchInventory = async () => {
       try {
-        const res = await fetch(`${API_BACK}/inventory/?username=${encodeURIComponent(username)}`);
+        const res = await authFetch(`${API_BACK}/inventory/`,{
+          method: 'GET',
+        });
+
         if (res.ok) {
           const data = await res.json();
           setUserInventoryItems(data.inventory || []);
@@ -58,6 +110,10 @@ export default function InventoryBuilder() {
           setWeaponImagesMap(prev => ({ ...prev, ...mapping }));
         } else {
           console.warn('GET /inventory returned', res.status);
+          if (res.status === 401){
+            setNotificationMessage("Sessão expirada, faça login novamente.");
+            setTimeout(()=> setNotificationMessage(''), 3000);
+          }
         }
       } catch (err) {
         console.error('Error fetching inventory:', err);
@@ -171,9 +227,8 @@ export default function InventoryBuilder() {
         image_url: skin.displayIcon,
         price: skin.price || 0
       };
-      const res = await fetch(`${API_BACK}/inventory/add/?username=${encodeURIComponent(username)}`, {
+      const res = await authFetch(`${API_BACK}/inventory/add/`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       if (res.ok) {
@@ -221,7 +276,7 @@ export default function InventoryBuilder() {
   const removeFromInventory = async (skin_id) => {
     const removedItem = userInventoryItems.find(item => item.skin_id === skin_id);
     try {
-      const res = await fetch(`${API_BACK}/inventory/${encodeURIComponent(skin_id)}/?username=${encodeURIComponent(username)}`, {
+      const res = await authFetch(`${API_BACK}/inventory/${encodeURIComponent(skin_id)}/`, {
         method: 'DELETE'
       });
       if (res.ok) {
