@@ -2,28 +2,21 @@
 .guns-skins {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2%;
   min-width: 260px;
   max-width: 100%;
-
-  /* ocupa 100% da altura disponível do main */
   height: 100%;
   overflow: hidden;
-  padding: 10px; /* padding interno para conteúdo da coluna */
-  padding-bottom: 25px;
-  background: transparent;
+  padding: 10px;
 }
 
-/* filtro (mantive seu estilo) */
 .filter-skins {
   background: var(--bg-panel);
   border-radius: 6px;
-  padding: 16px;
+  padding: 6%;
   border: 1px solid var(--border-soft);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex-shrink: 0;
 }
 
 .filter-skins .input-search-skins {
@@ -36,7 +29,7 @@
 	font-size: 15px;
 	transition: 0.25s ease;
   margin-bottom: 10px;
-  padding: 2px;
+  padding: 5px;
 }
 
 .filter-skins .search-skin-buttons {
@@ -53,7 +46,7 @@
   padding: 5px;
   border-radius: 6px;
   width: 50%;
-  height: 3.5vh;
+  height: 35px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.25s ease;
@@ -71,7 +64,7 @@
   padding: 5px;
   border-radius: 6px;
   width: 50%;
-  height: 3.5vh;
+  height: 35px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.25s ease;
@@ -84,7 +77,6 @@
 	transform: scale(1.04);
 }
 
-/* lista de skins com SCROLL interno */
 .skins-api {
   background: var(--bg-panel);
   border-radius: 6px;
@@ -98,24 +90,49 @@
   min-width: 0;
 }
 
-/* scrollbar estilizada */
-.skins-api::-webkit-scrollbar { width: 8px; }
-.skins-api::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
+.skins-api::-webkit-scrollbar { 
+  width: 8px; 
+}
 
-.empty-state { padding: 28px 12px; color: var(--text-muted); text-align: center; font-size: 0.95rem; }
+.skins-api::-webkit-scrollbar-thumb { 
+  background: rgba(255,255,255,0.08); 
+  border-radius: 8px; 
+}
+
+.empty-state { 
+  padding: 28px 12px; 
+  color: var(--text-muted); 
+  text-align: center; 
+  font-size: 0.95rem; 
+}
 
 .skin-button {
-  display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 6px;
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 10px; 
+  border-radius: 6px;
   cursor: pointer;
   background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid rgba(255,255,255,0.03);
   transition: transform .14s ease, background .14s ease, box-shadow .14s ease, border-color .14s ease;
 }
+
 .skin-button:hover {
   transform: translateX(6px);
   background: rgba(255,255,255,0.04);
   box-shadow: 0 6px 18px rgba(0,0,0,0.45);
   border-color: rgba(255,70,85,0.12);
 }
-.skin-button img { width: 64px; height: 34px; object-fit: contain; flex-shrink: 0; }
-.skin-button span { font-weight: 700; color: var(--text-main); font-size: 0.95rem; }
+
+.skin-button img { 
+  width: 64px; 
+  height: 34px; 
+  object-fit: contain; 
+}
+
+.skin-button span { 
+  font-weight: 500; 
+  color: var(--text-main); 
+  font-size: 0.95rem; 
+}

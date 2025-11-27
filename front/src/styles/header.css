@@ -1,17 +1,17 @@
 .site-header {
   width: 100%;
-  height: 70px;
+  height: 4rem;
   background: var(--header-footer-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 30px;
   box-sizing: border-box;
   border-bottom: 2px solid var(--border-red);
   position: relative;
 }
 
-.site-header .left img {
+.site-header .left .left-valorant-logo {
   height: 40px;
   cursor: pointer;
 }
@@ -29,7 +29,7 @@
   margin: 0;
 }
 
-.site-header .right select {
+.site-header .right .select-lojas-valorantpoints {
   background: #121212;
   color: var(--text-main);
   border: 1px solid var(--border-red);
@@ -40,7 +40,12 @@
   appearance: none;
 }
 
-.site-header .right select:hover {
+.site-header .right .select-lojas-valorantpoints:focus {
+  outline: none;
+  border: 1px solid var(--border-red);
+}
+
+.site-header .right .select-lojas-valorantpoints:hover {
   background: var(--main-red);
   cursor: pointer;
   color: var(--text-main);

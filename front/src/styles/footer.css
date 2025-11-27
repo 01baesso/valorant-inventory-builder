@@ -1,13 +1,13 @@
 .site-footer {
   width: 100%;
-  height: 60px;
+  height: 4rem;
   background: rgba(10,10,10,0.98);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
   box-sizing: border-box;
-  border-top: 2px solid #ff4655;
+  border-top: 2px solid var(--border-red);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -36,7 +36,7 @@
 }
 
 /* Botão GitHub */
-.github-btn img {
+.github-btn .footer-github-logo {
   height: 40px;
   cursor: pointer;
 }

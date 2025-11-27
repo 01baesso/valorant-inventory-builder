@@ -18,14 +18,14 @@ export default function Header() {
     <header className="site-header">
       <div className="left">
         <a href="https://playvalorant.com" target="_blank" rel="noreferrer">
-          <img src={valorantLogo} alt="Valorant Logo"/>
+          <img className='left-valorant-logo' src={valorantLogo} alt="Valorant Logo"/>
         </a>
       </div>
       <div className="center">
         <h1>Valorant Inventory Builder</h1>
       </div>
       <div className="right">
-        <select value={selectedStore} onChange={handleStoreChange}>
+        <select className='select-lojas-valorantpoints' value={selectedStore} onChange={handleStoreChange}>
           <option disabled value="Lojas Valorant Points">Lojas Valorant Points</option>
           <option value="https://bonoxs.com/br/Valorant?from=home_favorite">Bonoxs</option>
           <option value="https://www.reidoscoins.com.br/Valorant">Rei dos Coins</option>

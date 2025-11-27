@@ -2,34 +2,56 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  /* ocupa 100% do main */
   height: 100%;
   overflow: hidden;
   min-width: 260px;
   max-width: 100%;
-
-  /* sem position sticky para garantir alinhamento com header/footer */
   position: relative;
-  padding: 10px; /* padding interno */
-  padding-bottom: 25px;
+  padding: 10px;
   background: transparent;
 }
 
 .money-per-skin-api {
   background: var(--bg-panel);
   border-radius: 6px;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid var(--border-soft);
   flex: 1 1 auto;
-  overflow-y: auto; /* scroll apenas aqui */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* scrollbar direita */
-.money-per-skin-api::-webkit-scrollbar { width: 8px; }
-.money-per-skin-api::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
+.empty-state { 
+  padding: 28px 12px; 
+  color: var(--text-muted); 
+  text-align: center; 
+  font-size: 0.95rem; 
+}
 
-.inventory-title { color: var(--text-main); text-transform: uppercase; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
+.inventory-title { 
+  position: sticky;
+  color: var(--text-main); 
+  text-transform: uppercase; 
+  font-weight: 900; 
+  margin-bottom: 10px; 
+  letter-spacing: 1px; 
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inventory-list {
+  overflow: auto;
+}
+
+.inventory-list::-webkit-scrollbar { 
+  width: 8px; 
+}
+
+.inventory-list::-webkit-scrollbar-thumb { 
+  background: rgba(255,255,255,0.08); 
+  border-radius: 8px; 
+}
 
 .inventory-item-card {
   display: flex; 
@@ -41,19 +63,36 @@
   border-radius: 6px;
   background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.12));
   border-left: 3px solid var(--main-red);
+  margin-right: 10px;
 }
-.item-info { display: flex; flex-direction: column; gap: 4px; }
-.item-name { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
-.item-price { color: var(--gold); font-size: 0.8rem; }
+
+.item-info { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+}
+
+.item-name { 
+  font-weight: 600; 
+  font-size: 0.95rem; 
+  color: var(--text-main); 
+}
+
+.item-price { 
+  color: var(--gold); 
+  font-size: 0.8rem; 
+}
 
 .remove-btn { 
-  width: 20%;
+  display: flex;
+  justify-content: center;
+  width: 40px;
   background: transparent; 
   border: none; 
   font-size: 18px; 
   color: rgba(255,255,255,0.7); 
   cursor: pointer; 
-  padding: 5%;
+  padding: 15px;
   border-radius: 6px;
   transition: 0.25s ease;
 }
@@ -64,7 +103,16 @@
   border-radius: 6px;
 }
 
-.price-viewers { display: flex; flex-direction: column; gap: 12px; }
+.remove-btn img {
+  width: 20px;
+}
+
+.price-viewers { 
+  display: flex; 
+  flex-direction: 
+  column; gap: 12px; 
+}
+
 .vp-price, .money-price {
   background: rgba(0,0,0,0.6);
   border: 1px solid var(--border-soft);
@@ -73,6 +121,7 @@
   text-align: center;
   font-weight: 700;
 }
+
 .vp-price p, .money-price p {
   color: var(--text-muted);
   font-weight: 700;

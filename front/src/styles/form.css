@@ -1,30 +1,30 @@
 .container {
-	width: 420px;
+	width: 42%;
 	background: var(--form-bg);
 	backdrop-filter: blur(6px);
-	padding: 40px;
+	padding: 2.5rem;
 	border-radius: 14px;
 	box-shadow: 0 0 20px rgba(0,0,0,0.25);
 	border: 1px solid rgba(255,255,255,0.15);
 }
 
 form h1 {
-	color: #ffffff;
+	color: var(--text-main);
 	text-align: center;
-	margin-bottom: 20px;
+	margin-bottom: 6%;
 	font-weight: 800;
 }
 
 .error-message {
-	color: #ba3a46;
-	margin-bottom: 20px;
+	color: var(--main-red);
+	margin-bottom: 6%;
 	text-align: center;
 	text-decoration: underline;
 }
 
 .success-message{
-	color: #ba3a46;
-	margin-bottom: 20px;
+	color: var(--main-red);
+	margin-bottom: 6%;
 	text-align: center;
 	text-decoration: underline;
 }
@@ -34,17 +34,16 @@ form h1 {
 	align-items: center;
 	background: rgba(255,255,255,0.12);
 	border: 1px solid rgba(255,255,255,0.25);
-	padding: 12px;
-	gap: 12px;
+	padding: 3.5%;
+	gap: 4%;
 	border-radius: 10px;
-	margin-bottom: 18px;
+	margin-bottom: 5%;
 	transition: 0.25s ease;
 }
 
 .inputs .icon {
-	width: 22px;
-	height: 22px;
-	opacity: 0.9;
+	width: 6.5%;
+	height: 6.5%;
 }
 
 .inputs input {
@@ -58,15 +57,15 @@ form h1 {
 }
 
 .inputs input::placeholder {
-	color: #ba3a46;
+	color: var(--main-red);
 }
 
 .form-button {
 	width: 100%;
-	padding: 12px;
-	background: #ba3a46;
+	padding: 3.5%;
+	background: var(--main-red);
 	border: none;
-	color: white;
+	color: var(--text-main);
 	font-size: 16px;
 	border-radius: 10px;
 	cursor: pointer;
@@ -80,21 +79,17 @@ form h1 {
 	transform: scale(1.04);
 }
 
-#back-to-login{ 
-	margin-top: 20px;
-}
-
 .signup-link {
-	margin-top: 20px;
+	margin-top: 5.5%;
 	text-align: center;
 }
 
 .signup-link p {
-	color: #ba3a46;
+	color: var(--main-red);
 }
 
 .signup-link a {
-	color: #ba3a46;
+	color: var(--main-red);
 	text-decoration: none;
 	font-weight: 600;
 }
@@ -105,7 +100,7 @@ form h1 {
 
 .inputs:focus-within {
 	transform: scale(1.04);
-	border-color: #ba3a46;
+	border-color: var(--main-red);
 	background: rgba(186, 58, 70, 0.18);
 	box-shadow: 0 0 8px rgba(186, 58, 70, 0.4);
 }

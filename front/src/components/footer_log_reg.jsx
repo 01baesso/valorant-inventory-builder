@@ -10,7 +10,7 @@ export default function Footer() {
       </div>
       <div>
         <a className="github-btn" href="https://github.com/01baesso/valorant-inventory-builder" target="_blank" rel="noreferrer">
-          <img src={gitHubIcon} alt="GitHub Logo" />
+          <img className='footer-github-logo' src={gitHubIcon} alt="GitHub Logo" />
         </a>
       </div>
     </footer>
