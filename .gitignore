@@ -11,3 +11,86 @@ __pycache__/
 db.sqlite3
 *.log
 .env
+
+##############################################
+# FRONTEND (React / Node)
+##############################################
+
+/front/node_modules/
+/front/build/
+/front/dist/
+/front/.parcel-cache/
+/front/.vite/
+/front/.next/
+/front/npm-debug.log
+/front/yarn-debug.log
+/front/yarn-error.log
+
+# environment do front
+/front/.env
+/front/.env.local
+/front/.env.*.local
+
+
+##############################################
+# BACKEND (Django / Python)
+##############################################
+
+# Byte-compiled
+*.pyc
+__pycache__/
+*/__pycache__/
+
+# Virtual environments
+/back/venv/
+/back/.venv/
+/back/env/
+/back/.env/
+
+# Arquivos de runtime
+db.sqlite3
+*.log
+
+# Django migrations (exceto __init__.py)
+**/migrations/*
+!**/migrations/__init__.py
+
+# Arquivos sensíveis
+.backup.env
+*.env
+.env.*
+/back/.env
+
+# JWT blacklist (runtime!)
+/back/db/blacklist.json
+**/blacklist.json
+
+# Arquivos temporários de upload
+/back/media/
+/back/uploads/
+
+# Arquivos criados por ferramentas de testes
+.coverage
+coverage.xml
+*.cover
+.pytest_cache/
+htmlcov/
+.tox/
+
+# mypy / cache linters
+.mypy_cache/
+.cache/
+
+
+##############################################
+# SISTEMA / EDITORES / OS
+##############################################
+
+.DS_Store
+Thumbs.db
+
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo

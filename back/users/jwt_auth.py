@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 #Caminho para blacklist
-BLACKLIST_DB=os.path.join(settings.BASE_DIR,"db","blacklist,json")
+BLACKLIST_DB=os.path.join(settings.BASE_DIR,"db","blacklist.json")
 
 def ensure_blacklist_db():
     db = os.path.dirname(BLACKLIST_DB)
@@ -36,7 +36,7 @@ def is_token_blakclisted(jti):
 def create_access_token(payload: dict, expires_minutes: int=60):
     jti=str(uuid.uuid4())
     now = datetime.datetime.utcnow()
-    exp=now+datetime.datetime(minutes=expires_minutes)
+    exp=now+datetime.timedelta(minutes=expires_minutes)
     token_payload={
         **payload,
         "jti": jti,
@@ -92,8 +92,8 @@ def token_required(view_f):
         request.user={
             "id": payload.get("user_id"),
             "username": payload.get("username"),
-            "email": payload.get("email")
+            "email": payload.get("email"),
         }
 
-        return view_f(request, *args, *kwargs)
+        return view_f(request, *args, **kwargs)
     return wrapper

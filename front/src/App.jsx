@@ -1,21 +1,29 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLoaderData, useLocation } from 'react-router-dom';
 
 import Header from './components/header_log_reg.jsx';
+import HeaderInventory from './components/header_inventory.jsx';
 import Footer from './components/footer_log_reg.jsx';
 import Login from './pages/login.jsx';
 import Register from './pages/register.jsx';
 import InventoryBuilder from './pages/inventory_builder.jsx';
 
-import bg from '/images/background/background.webp';
-import invBg from'/images/background/inventory-background.webp';
 import './App.css';
+
+const HeaderSwitcher = () => {
+  const location = useLocation();
+  if (location.pathname === '/inventory') {
+    return <HeaderInventory />;
+  } else {
+    return <Header />;
+  }
+}
 
 export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <HeaderSwitcher />
         <main className="site-main">
           <div className="container-central">
             <Routes>
