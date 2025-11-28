@@ -165,7 +165,7 @@ def login_view(request):
 def refresh_view(request):
     refresh=request.COOKIES.get("refresh_token")
     if not refresh:
-        return JsonResponse({"error": "Refresh token não fornecido"}, status=400)
+        return JsonResponse({"error": "Refresh token não fornecido"}, status=401)
     
     try:
         payload=decode_token(refresh)

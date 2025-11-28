@@ -8,34 +8,14 @@ import SearchSkins from '../components/inventory-builder/searchSkins.jsx';
 import Loadout from '../components/inventory-builder/loadout.jsx';
 import MoneyCounter from '../components/inventory-builder/moneyCounter.jsx';
 
+import { tryRefresh } from '../utils/auth.jsx';
+
 import {DEFAULT_WEAPON_IMAGES, weaponIdMap, weaponCategories} from '../components/inventory-builder/inventoryUtils.jsx';
 
 const API_VALORANT_BASE = 'https://vinfo-api.com';
 const API_BACK = 'http://localhost:8000/api';
 
 const getAccess = () => localStorage.getItem('access');
-
-async function tryRefresh() {
-  try{
-    const res = await fetch (`${API_BACK}/refresh/`,{
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      credentials: 'include',
-    });
-
-    if (!res.ok) return false;
-
-    const data = await res.json();
-    if(data.access){
-      localStorage.setItem('access', data.access);
-      return true;
-    }
-    return false;
-  } catch (err){
-    console.error("Refresh fail", err);
-    return false;
-  }
-}
 
 async function authFetch(url, options = {}) {
   const access = getAccess();
