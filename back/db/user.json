@@ -4,19 +4,26 @@
     "username": "nanzk",
     "email": "nanzk@gmail.com",
     "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-    "inventory": [
-      {
-        "skin_id": "000AD7B1-44B0-9345-EA47-9CBD7DCDBB38",
-        "skin_name": "Gaia's Vengeance Vandal",
-        "image_url": "https://vinfo-api.com/media/WeaponSkins/C9D93000-4133-3F68-20EA-81A307EF0540.png",
-        "price": 1775
-      }
-    ]
+    "inventory": []
   },
   {
     "id": 2,
     "username": "baesso",
     "email": "baesso@gmail.com",
+    "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+    "inventory": []
+  },
+  {
+    "id": 3,
+    "username": "caio",
+    "email": "epilepsia@gmail.com",
+    "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+    "inventory": []
+  },
+  {
+    "id": 4,
+    "username": "rruan",
+    "email": "rr@gmail.com",
     "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
     "inventory": []
   }
