@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLoaderData, useLocation } from 'react-router-dom';
 
+// import ProtectedRoute from './components/ProtectedRoute.jsx';
+
 import Header from './components/header_log_reg.jsx';
 import HeaderInventory from './components/header_inventory.jsx';
 import Footer from './components/footer_log_reg.jsx';
@@ -29,7 +31,11 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/inventory" element={<InventoryBuilder/>} />
+              <Route path="/inventory" element={
+                // <ProtectedRoute>
+                  <InventoryBuilder />
+                /* </ProtectedRoute> */
+              } />
             </Routes>
           </div>
         </main>

@@ -43,7 +43,7 @@ async function authFetch(url, options = {}) {
   if (access) 
     headers['Authorization'] = `Bearer `+access;
 
-  headers['Content-Type'] = headers['Content-Type'] || 'application.json';
+  headers['Content-Type'] = headers['Content-Type'] || 'application/json';
   const opts = {...options, headers, credentials: options.credentials || 'include'};
   let res = await fetch(url, opts);
 

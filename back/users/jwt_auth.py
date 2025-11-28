@@ -13,11 +13,30 @@ def ensure_blacklist_db():
     if not os.path.exists(BLACKLIST_DB):
         with open(BLACKLIST_DB, "w", encoding="utf-8") as f:
             json.dump([],f)
+    else:
+        try:
+            with open(BLACKLIST_DB, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if not content:
+                    with open(BLACKLIST_DB, "r", encoding="utf-8") as fw:
+                        json.dump([], fw)
+                else:
+                    json.loads(content)
+        except Exception:
+            with open(BLACKLIST_DB, "w", encoding="utf-8") as f:
+                json.dump([], f)
         
 def load_blacklist():
     ensure_blacklist_db()
-    with open(BLACKLIST_DB, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(BLACKLIST_DB, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        with open(BLACKLIST_DB, "w", encoding="utf-8") as f:
+            json.dump([], f)
+        return []
+    except Exception:
+        return []
     
 def save_blacklist(blacklist):
     with open(BLACKLIST_DB, "w", encoding="utf-8") as f:
@@ -29,7 +48,7 @@ def add_token_to_blacklist(jti):
         bl.append(jti)
         save_blacklist(bl)
 
-def is_token_blakclisted(jti):
+def is_token_blacklisted(jti):
     bl=load_blacklist()
     return jti in bl
 
@@ -86,7 +105,7 @@ def token_required(view_f):
         
         #checar blakclist
         jti = payload.get("jti")
-        if jti and is_token_blakclisted(jti):
+        if jti and is_token_blacklisted(jti):
             return JsonResponse({"error": "Token revogado"}, status=401)
         
         request.user={

@@ -28,10 +28,9 @@ export default function Header() {
     } catch (err) {
       console.warn('Logout request falhou', err);
     } finally {
-      // limpar localStorage sempre
       localStorage.removeItem('username');
       localStorage.removeItem('access');
-      navigate('/'); // redireciona ao login
+      navigate('/');
     }
   };
 

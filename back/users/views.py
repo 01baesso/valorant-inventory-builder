@@ -9,7 +9,7 @@ from .jwt_auth import (
     add_token_to_blacklist, 
     decode_token, 
     token_required, 
-    is_token_blakclisted,
+    is_token_blacklisted,
 )
 
 # Caminho para o arquivo JSON único
@@ -176,7 +176,7 @@ def refresh_view(request):
         return JsonResponse({"error":"Token não é refresh"}, status=400)
     
     jti=payload.get("jti")
-    if jti and is_token_blakclisted(jti):
+    if jti and is_token_blacklisted(jti):
         return JsonResponse({"error":"Token revogado"}, status=401)
     
     access_payload={
